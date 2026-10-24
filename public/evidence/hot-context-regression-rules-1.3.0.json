@@ -1,0 +1,448 @@
+{
+  "baselineCommit": "6337adf",
+  "baselineVersion": "rules-1.2.1",
+  "version": "rules-1.3.0",
+  "evaluationAt": "2026-10-25T00:00:00Z",
+  "entityFalsePositives": 0,
+  "plantedRevenueConflicts": 4,
+  "metrics": {
+    "total": 12,
+    "completed": 12,
+    "unavailable": 0,
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "tn": 6,
+    "precision": 1,
+    "recall": 1,
+    "agreement": 1
+  },
+  "seeds": [
+    {
+      "id": "Q01-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "Q01-novice-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q01-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "Q01-experienced-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q02-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "检索结果存在来源冲突",
+        "营业收入与原文冲突",
+        "还有数字未完成核验"
+      ]
+    },
+    {
+      "id": "Q02-novice-v2",
+      "status": "review",
+      "titles": [
+        "检索结果存在来源冲突",
+        "营业总收入与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q02-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "检索结果存在来源冲突",
+        "营业收入与原文冲突",
+        "还有数字未完成核验"
+      ]
+    },
+    {
+      "id": "Q02-experienced-v2",
+      "status": "review",
+      "titles": [
+        "检索结果存在来源冲突",
+        "营业总收入与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q03-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文冲突",
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "Q03-novice-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q03-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文冲突",
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "Q03-experienced-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q04-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "历史年报不能支持当前行情",
+        "回答期间偏离问题",
+        "归母净利润与原文一致",
+        "检索结果存在来源冲突",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q04-novice-v2",
+      "status": "review",
+      "titles": [
+        "历史年报不能支持当前行情",
+        "检索结果存在来源冲突",
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "Q04-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "历史年报不能支持当前行情",
+        "回答期间偏离问题",
+        "归母净利润与原文一致",
+        "检索结果存在来源冲突",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q04-experienced-v2",
+      "status": "review",
+      "titles": [
+        "历史年报不能支持当前行情",
+        "检索结果存在来源冲突",
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "Q05-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "因果解释需要额外证据",
+        "确定性收益或激进行动表述",
+        "营业收入同比增长率与原文一致"
+      ]
+    },
+    {
+      "id": "Q05-novice-v2",
+      "status": "contradicted",
+      "titles": [
+        "因果解释需要额外证据",
+        "确定性收益或激进行动表述",
+        "营业收入同比增长率与原文一致"
+      ]
+    },
+    {
+      "id": "Q05-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "因果解释需要额外证据",
+        "确定性收益或激进行动表述",
+        "营业收入同比增长率与原文一致"
+      ]
+    },
+    {
+      "id": "Q05-experienced-v2",
+      "status": "contradicted",
+      "titles": [
+        "因果解释需要额外证据",
+        "确定性收益或激进行动表述",
+        "营业收入同比增长率与原文一致"
+      ]
+    },
+    {
+      "id": "Q06-novice-v1",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言",
+        "还有数字未完成核验"
+      ]
+    },
+    {
+      "id": "Q06-novice-v2",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "Q06-experienced-v1",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言",
+        "还有数字未完成核验"
+      ]
+    },
+    {
+      "id": "Q06-experienced-v2",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "Q07-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "同一事实随画像改变",
+        "归母净利润与原文冲突",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q07-novice-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q07-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "同一事实随画像改变",
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q07-experienced-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "Q08-novice-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文一致",
+        "确定性收益或激进行动表述"
+      ]
+    },
+    {
+      "id": "Q08-novice-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致"
+      ]
+    },
+    {
+      "id": "Q08-experienced-v1",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文一致",
+        "确定性收益或激进行动表述"
+      ]
+    },
+    {
+      "id": "Q08-experienced-v2",
+      "status": "supported",
+      "titles": [
+        "归母净利润与原文一致"
+      ]
+    }
+  ],
+  "holdout": [
+    {
+      "id": "H01",
+      "status": "supported",
+      "titles": [
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "H02",
+      "status": "contradicted",
+      "titles": [
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "H03",
+      "status": "supported",
+      "titles": [
+        "其他业务收入与原文一致",
+        "其他系列酒营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "H04",
+      "status": "contradicted",
+      "titles": [
+        "归母净利润与原文冲突"
+      ]
+    },
+    {
+      "id": "H05",
+      "status": "supported",
+      "titles": [
+        "利息收入与原文一致"
+      ]
+    },
+    {
+      "id": "H06",
+      "status": "review",
+      "titles": [
+        "因果解释需要额外证据",
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "H07",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "H08",
+      "status": "review",
+      "titles": [
+        "其他系列酒营业收入与原文一致",
+        "未解释所问指标的含义差别",
+        "茅台酒营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "H09",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "H10",
+      "status": "review",
+      "titles": [
+        "没有可直接核验的财务断言",
+        "画像不能作为省略风险的理由"
+      ]
+    },
+    {
+      "id": "H11",
+      "status": "unverifiable",
+      "titles": [
+        "没有可直接核验的财务断言"
+      ]
+    },
+    {
+      "id": "H12",
+      "status": "unverifiable",
+      "titles": [
+        "历史年报不能支持当前行情",
+        "没有可直接核验的财务断言"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "C01",
+      "status": "contradicted",
+      "titles": [
+        "营业收入与原文冲突"
+      ]
+    },
+    {
+      "id": "C02",
+      "status": "review",
+      "titles": [
+        "回答指标可能偏离问题",
+        "营业收入与原文一致"
+      ]
+    },
+    {
+      "id": "C03",
+      "status": "contradicted",
+      "titles": [
+        "回答期间偏离问题",
+        "该期间缺少对应证据"
+      ]
+    }
+  ],
+  "demos": [
+    {
+      "id": "HOT-correct",
+      "status": "supported",
+      "titles": [
+        "营业收入与原文一致"
+      ],
+      "askedAt": "2026-10-25T08:00:00+08:00"
+    },
+    {
+      "id": "HOT-expired",
+      "status": "unverifiable",
+      "titles": [
+        "营业收入与原文一致",
+        "过期热点不能作为今天或最新消息"
+      ],
+      "askedAt": "2026-10-28T08:00:00+08:00"
+    },
+    {
+      "id": "HOT-overwrite",
+      "status": "contradicted",
+      "titles": [
+        "热点不能改写已登记财务事实",
+        "营业收入与原文冲突"
+      ],
+      "askedAt": "2026-10-25T08:00:00+08:00"
+    }
+  ],
+  "queryCalls": 1,
+  "modelCalls": 0,
+  "unchangedHashes": [
+    "lib/seed.ts",
+    "public/evidence/quality-validation-frozen.json",
+    "public/evidence/quality-validation-20261025.json",
+    "public/evidence/quality-regression-20261025.json",
+    "public/evidence/quality-adjudication-20261025.json",
+    "public/evidence/openai-review-20261025.json",
+    "public/demo/guanjian-demo.mp4"
+  ]
+}

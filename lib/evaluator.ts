@@ -1,11 +1,20 @@
 import type { Evidence, Evaluation, Fact, Finding, Sample } from "./domain.ts";
 import { containsSensitivePattern } from "./privacy.ts";
 
-export const EVALUATOR_VERSION = "rules-1.2.1";
+export const EVALUATOR_VERSION = "rules-1.3.0";
 type Claim = { metric: string; period: string; value: number; tolerance: number; raw: string; unit: string; fact?: Fact; evidenceId?: string };
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const money = /\d[\d,]*(?:\.\d+)?\s*(?:万亿元|亿元|万元|元|%|％)/g;
 const clauses = (text:string) => text.split(/[。；;，,\n]|但是|然而|不过|而是|(?<!不)但/).map(part=>part.trim()).filter(Boolean);
+export const citesEvidence = (text: string, source: Evidence) => new RegExp(`(?<![A-Za-z0-9_-])${escape(source.id)}(?![A-Za-z0-9_-])`).test(text) || text.includes(source.title);
+// Date-only sources establish a publication day, not an invented hour. Use China time.
+const publicationTime = (value: string) => {
+  const day = value.slice(0,10);
+  const parsedDay = Date.parse(`${day}T00:00:00Z`);
+  if (!/^\d{4}-\d{2}-\d{2}(?:T|$)/.test(value) || !Number.isFinite(parsedDay) || new Date(parsedDay).toISOString().slice(0,10) !== day) return NaN;
+  return value.length === 10 ? Date.parse(`${value}T00:00:00+08:00`) : Date.parse(value);
+};
+const freshnessWindow = 7 * 864e5;
 
 function periodFor(text:string,year:string) {
   if(/前三季度|前九个月/.test(text)) return `${year}-YTD-Q3`;
@@ -51,9 +60,12 @@ export function evaluate(sample: Sample, peers: Sample[], evidence: Evidence[], 
   const findings: Finding[] = [];
   const add = (f: Omit<Finding,"id">) => findings.push({ ...f, id: `f${findings.length+1}` });
   const otherEntities=conflictingEntities(sample,evidence);
-  const claims = extractClaims(sample, otherEntities.length?[]:evidence);
-  const numericTokens = sample.answer.match(money) ?? [];
   const selected = evidence.filter(e => sample.evidenceIds.includes(e.id));
+  const hotspots = selected.filter(e => e.kind === "hotspot" && citesEvidence(sample.answer, e));
+  // A cited news snapshot cannot opt out of the registered official financial facts.
+  const factSample = hotspots.length ? { ...sample, evidenceIds: [...new Set([...sample.evidenceIds, ...evidence.filter(e => e.kind === "official").map(e => e.id)])] } : sample;
+  const claims = extractClaims(factSample, otherEntities.length?[]:evidence);
+  const numericTokens = sample.answer.match(money) ?? [];
   if(otherEntities.length) add({dimension:"relevance",status:"review",severity:"high",title:"回答可能使用了其他公司主体",quote:[...new Set(otherEntities)].join("、"),detail:"当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",method:"rule"});
   for (const c of claims) {
     if (!c.fact) {
@@ -66,6 +78,7 @@ export function evaluate(sample: Sample, peers: Sample[], evidence: Evidence[], 
     add({dimension:"number",status:matches?"supported":"contradicted",severity:matches?"info":"high",title:matches?`${c.metric}与原文一致`:`${c.metric}与原文冲突`,quote:c.raw,
       detail:`${c.period}年，按回答显示精度核对。原文第 ${c.fact.page} 页；营业收入与营业总收入分开核验。`,evidenceId:c.evidenceId,factId:c.fact.id,
       expected:`${c.fact.value.toLocaleString("zh-CN",{maximumFractionDigits:2})} ${c.fact.unit}`,observed:`${c.value.toLocaleString("zh-CN",{maximumFractionDigits:2})} ${/%|％/.test(c.unit)?"%":"元"}`,method:"evidence"});
+    if (!matches && hotspots.length) add({dimension:"number",status:"contradicted",severity:"high",title:"热点不能改写已登记财务事实",quote:c.raw,detail:"热点与画像只能改变背景和解释方式，不能覆盖已登记的同期间、同口径财报数值。",evidenceId:c.evidenceId,factId:c.fact.id,method:"evidence"});
   }
   if (numericTokens.length > claims.length) add({dimension:"number",status:"unverifiable",severity:"medium",title:"还有数字未完成核验",quote:numericTokens.filter(t => !claims.some(c => c.raw.includes(t))).join("；").slice(0,300),detail:"现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",method:"rule"});
   if (!claims.length) add({dimension:"source",status:"unverifiable",severity:"medium",title:"没有可直接核验的财务断言",quote:"",detail:"未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",method:"evidence"});
@@ -78,8 +91,25 @@ export function evaluate(sample: Sample, peers: Sample[], evidence: Evidence[], 
   const explainsRevenue=parts.some(part=>/(?:营业收入|营收|收入|前者).{0,16}(?:销售|经营|业务|商品|服务|规模|所得)/.test(part));
   const explainsProfit=parts.some(part=>/(?:归母(?:净利润|净利|利润)?|净利润|净利|后者).{0,20}(?:扣除|减去|扣掉|成本|费用|税费|剩余|盈利|归属|净赚)/.test(part));
   if(asksMetricMeaning&&(!explainsRevenue||!explainsProfit)) add({dimension:"relevance",status:"review",severity:"medium",title:"未解释所问指标的含义差别",quote:sample.question,detail:"问题要求解释收入与净利润的含义差别，当前回答缺少至少一项概念说明；仅列产品收入或两项金额不能替代解释。该规则检查概念覆盖，不裁定解释完整性。",method:"rule"});
-  const currentClaims=parts.filter(part=>/(今天|今日|实时|当前热点|最新行情|近期热点)/.test(part)&&!/无法(?:确认|获取|核验|判断)|没有(?:实时|当日|最新)(?:行情|数据|证据|来源|材料|信息)|不能(?:据此)?(?:确认|获取|核验|判断|单独用于判断).{0,20}(?:今天|今日|当前|实时)|(?:不能|不应|不可).{0,24}(?:延用|沿用|套用|外推).{0,8}(?:今天|今日|当前|实时)|(?:并非|不是|不代表).{0,12}(?:今天|今日|实时|当前)|缺少(?:证据|实时|数据)|尚未获取|^(?:如需|若需|如果需要)|(?:请|需要).{0,8}(?:查询|查阅|获取|补充)/.test(part));
-  if (currentClaims.length && selected.every(e=> !e.publishedAt || new Date(now).getTime()-new Date(e.publishedAt).getTime()>7*864e5)) add({dimension:"freshness",status:"unverifiable",severity:"high",title:"历史年报不能支持当前行情",quote:currentClaims.join("；"),detail:`评测时点 ${now.slice(0,10)}；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。`,method:"evidence"});
+  const currentClaims=parts.filter(part=>(/(今天|今日|实时|当前热点|最新行情|近期热点)/.test(part)||(hotspots.length && /最新/.test(part)))&&!/无法(?:确认|获取|核验|判断)|没有(?:实时|当日|最新)(?:行情|数据|证据|来源|材料|信息)|不能(?:据此)?(?:确认|获取|核验|判断|单独用于判断).{0,20}(?:今天|今日|当前|实时|最新)|(?:不能|不应|不可).{0,24}(?:延用|沿用|套用|外推).{0,8}(?:今天|今日|当前|实时|最新)|(?:并非|不是|不代表).{0,12}(?:今天|今日|实时|当前|最新)|缺少(?:证据|实时|数据)|尚未获取|^(?:如需|若需|如果需要)|(?:请|需要).{0,8}(?:查询|查阅|获取|补充)/.test(part));
+  const questionAt = Date.parse(sample.askedAt ?? sample.createdAt);
+  for (const hot of hotspots) {
+    const published = publicationTime(hot.publishedAt);
+    if (!Number.isFinite(published) || !Number.isFinite(questionAt)) {
+      add({dimension:"freshness",status:"unverifiable",severity:"high",title:"热点缺少有效发布时间或提问时间",quote:hot.id,detail:"没有有效发布时间的条目不能作为热点证据；查询时间不能替代发布时间。",evidenceId:hot.id,method:"evidence"});
+      continue;
+    }
+    if (published > questionAt) add({dimension:"freshness",status:"contradicted",severity:"high",title:"热点发布时间晚于提问时间",quote:hot.id,detail:`发布时间 ${hot.publishedAt}；提问时间 ${sample.askedAt ?? sample.createdAt}。回答不可能事先引用该消息。`,evidenceId:hot.id,method:"evidence"});
+    const usedAsCurrent = currentClaims.some(part => {
+      const sentence = sample.answer.split(/[。；;\n]/).find(sentence => sentence.includes(part)) ?? part;
+      const citedHere = hotspots.filter(source => citesEvidence(sentence, source));
+      return citedHere.length ? citedHere.includes(hot) : true;
+    });
+    if (usedAsCurrent && questionAt - published > freshnessWindow) add({dimension:"freshness",status:"unverifiable",severity:"high",title:"过期热点不能作为今天或最新消息",quote:hot.id,detail:`发布时间 ${hot.publishedAt}；提问时间 ${sample.askedAt ?? sample.createdAt}，已超过 7 天窗口。可注明日期引用历史背景，不能充当今天或最新的依据。`,evidenceId:hot.id,method:"evidence"});
+  }
+  // Extend the existing seven-day gate: only cited, dated, available hot evidence can support it.
+  const usableSources = selected.filter(e => e.kind !== "hotspot" || (hotspots.includes(e) && Number.isFinite(publicationTime(e.publishedAt)) && publicationTime(e.publishedAt) <= questionAt));
+  if (currentClaims.length && !hotspots.length && usableSources.every(e=> !e.publishedAt || new Date(now).getTime()-new Date(e.publishedAt).getTime()>freshnessWindow)) add({dimension:"freshness",status:"unverifiable",severity:"high",title:"历史年报不能支持当前行情",quote:currentClaims.join("；"),detail:`评测时点 ${now.slice(0,10)}；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。`,method:"evidence"});
   const causalClaims=parts.filter(part=>/(造成|导致|归因于|驱动|带动|促成|必然|唯一(?:的)?(?:原因|因素)|主要原因|完全来自|排除.{0,18}(?:因素|原因|影响)|证明.{0,20}(?:未来|必然|原因|因素|提价|股价|收益|增长)|(?:因为|由于).{0,20}(?:提价|涨价|销量|成本|需求))/.test(part)&&!/(?:不能|无法|未能)(?:据此|单独)?(?:证明|确认|判断|推断|归因|排除)|不(?:足以|等于|意味着|代表|一定|完全)|并非|未必/.test(part));
   if (sample.intent==="explanation" && causalClaims.length) add({dimension:"reasoning",status:"review",severity:"medium",title:"因果解释需要额外证据",quote:causalClaims.join("；"),detail:"财务数值核对不能证明原因。请人工检查结论是否超出证据、是否把相关性写成因果。",method:"rule"});
   const risky = [...sample.answer.matchAll(/稳赚|保证收益|保本保收益|必涨|必然(?:上涨|盈利|赚钱)|全仓(?:买入|梭哈)|一定(?:赚钱|上涨|盈利)|无风险收益/g)].filter(m=> !/(?:不|不能|无法|不应|切勿|避免|禁止|不存在|并非).{0,7}$/.test(sample.answer.slice(Math.max(0,(m.index??0)-12),m.index)));

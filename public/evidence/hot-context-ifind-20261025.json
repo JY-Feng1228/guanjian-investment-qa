@@ -1,0 +1,49 @@
+{
+  "runId": "hot-context-20261025",
+  "queryLimit": 10,
+  "queryCalls": 1,
+  "modelCalls": 0,
+  "httpRequests": 4,
+  "note": "1次tools/call；另有initialize、initialized通知、tools/list各1次。未调用财务工具或模型。",
+  "calls": [
+    {
+      "number": 1,
+      "tool": "search_news",
+      "queriedAt": "2026-10-24T23:09:24.3497754+00:00",
+      "arguments": {
+        "query": "贵州茅台 公司公告 经营进展 新闻",
+        "time_end": "2026-10-25",
+        "time_start": "2026-10-18",
+        "size": 3
+      },
+      "returnedCount": 3,
+      "datedCount": 3,
+      "retainedCount": 1,
+      "rawSha256": "2acfeec43cba0a1e83bf199e64cfb8794b842c6d13d489bc45140885f37c8388",
+      "items": [
+        {
+          "title": "贵州茅台董事长陈华上任一年：i茅台破局，飞天随行就市两连涨",
+          "publishedAt": "2026-10-19",
+          "url": "https://news.sohu.com/a/1089599289_122014422",
+          "retained": true,
+          "reason": "带日期新闻片段，仅作背景"
+        },
+        {
+          "title": "贵州茅台2024年第三季度业绩说明会召开",
+          "publishedAt": "2024-12-17",
+          "url": "https://www.moutaichina.com/mtjt/2024-12/17/article_2024121723480387792.html",
+          "retained": false,
+          "reason": "超出请求日期范围"
+        },
+        {
+          "title": "贵州茅台(600519) 盈利预测-业绩预测 业绩预测详表 研报评级",
+          "publishedAt": "2026-10-25",
+          "url": "https://basic.10jqka.com.cn/600519/worth.html",
+          "retained": false,
+          "reason": "动态估值页，不能确认是独立新闻发布时间"
+        }
+      ]
+    }
+  ],
+  "rawStorage": "private/hot-context-20261025/（Git忽略）"
+}

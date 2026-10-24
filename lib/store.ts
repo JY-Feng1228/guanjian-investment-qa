@@ -1,6 +1,7 @@
 import { env } from "cloudflare:workers";
 import type { AuditEvent, Evaluation, Feedback, Review, Sample, Workspace } from "./domain";
-import { EVIDENCE, PROFILES, seedSamples } from "./seed";
+import { PROFILES } from "./seed";
+import { WORKSPACE_EVIDENCE as EVIDENCE, demoSamples } from "./hot-context";
 import { evaluate } from "./evaluator";
 import { modelSnapshotSummary, snapshotEvaluations } from "./model-snapshot";
 
@@ -27,13 +28,21 @@ export async function getWorkspace(sandbox: string): Promise<Workspace> {
   let {results} = await db.prepare("SELECT kind,payload FROM qa_records WHERE sandbox=? ORDER BY created_at ASC,id ASC LIMIT 1200").bind(sandbox).all<{kind:RecordKind;payload:string}>();
   if (!results.length) {
     const now=new Date().toISOString();
-    const samples=seedSamples(now);
+    const samples=demoSamples(now);
     const evaluations=samples.map(s=>({...evaluate(s,samples,EVIDENCE,now),id:`initial-${s.id}`}));
-    await append(sandbox,[...samples.map(value=>({kind:"sample" as const,value})),...evaluations.map(value=>({kind:"evaluation" as const,value})),{kind:"event",value:{id:"initial",action:"创建独立演示空间",detail:"载入 32 条构造样例并执行规则核验；没有模型调用或人工确认。",createdAt:now}}]);
+    await append(sandbox,[...samples.map(value=>({kind:"sample" as const,value})),...evaluations.map(value=>({kind:"evaluation" as const,value})),{kind:"event",value:{id:"initial",action:"创建独立演示空间",detail:"载入 32 条原始构造样例及 3 条热点演示并执行规则核验；没有模型调用或人工确认。",createdAt:now}}]);
     results=(await db.prepare("SELECT kind,payload FROM qa_records WHERE sandbox=? ORDER BY created_at ASC,id ASC LIMIT 1200").bind(sandbox).all<{kind:RecordKind;payload:string}>()).results;
   }
   const values = <T>(kind:RecordKind)=>results.filter(r=>r.kind===kind).map(r=>JSON.parse(r.payload) as T);
   const samples=values<Sample>("sample");
+  // Append demonstrations to existing spaces; never replace answers or historical evaluations.
+  const missingHotSamples=demoSamples("").filter(s=>s.id.startsWith("HOT-")&&!samples.some(existing=>existing.id===s.id));
+  if(missingHotSamples.length) {
+    const additions=missingHotSamples.flatMap(sample=>[{kind:"sample" as const,value:sample},{kind:"evaluation" as const,value:{...evaluate(sample,[...samples,...missingHotSamples],EVIDENCE),id:`initial-${sample.id}`}}]);
+    await append(sandbox,additions);
+    samples.push(...missingHotSamples);
+    results.push(...additions.map(({kind,value})=>({kind,payload:JSON.stringify(value)})));
+  }
   const existingEvaluations=values<Evaluation>("evaluation");
   const snapshotRecords=await snapshotEvaluations(samples,EVIDENCE);
   const missing=snapshotRecords.filter(record=>!existingEvaluations.some(e=>e.id===record.id));

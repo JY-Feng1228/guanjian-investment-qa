@@ -1,14 +1,15 @@
 import { z } from "zod";
 import type { Feedback, Review, Sample } from "./domain";
-import { EVIDENCE, PROFILES } from "./seed";
-import { evaluate } from "./evaluator";
+import { PROFILES } from "./seed";
+import { WORKSPACE_EVIDENCE as EVIDENCE, HOT_EVIDENCE } from "./hot-context";
+import { evaluate, citesEvidence } from "./evaluator";
 import { containsSensitivePattern } from "./privacy";
 import { append, event, getWorkspace, resultResponse, sandboxFor } from "./store";
 
 const text=z.string().trim().min(1).max(4000);
 const schemas={
   evaluate:z.object({sampleIds:z.array(z.string().max(100)).min(1).max(80)}).strict(),
-  samples:z.object({question:text.max(500),answer:text,intent:z.enum(["fact","explanation"]),profileId:z.enum(["novice","experienced"]),promptVersion:z.string().trim().min(1).max(40).optional(),modelVersion:z.string().trim().min(1).max(100).optional(),dataVersion:z.string().trim().min(1).max(100).optional()}).strict(),
+  samples:z.object({question:text.max(500),answer:text,intent:z.enum(["fact","explanation"]),profileId:z.enum(["novice","experienced"]),promptVersion:z.string().trim().min(1).max(40).optional(),modelVersion:z.string().trim().min(1).max(100).optional(),dataVersion:z.string().trim().min(1).max(100).optional(),askedAt:z.string().datetime({offset:true}).optional()}).strict(),
   revisions:z.object({sampleId:z.string().max(100),answer:text,promptVersion:z.string().trim().min(1).max(40)}).strict(),
   reviews:z.object({evaluationId:z.string().max(100),decision:z.enum(["confirmed","false_positive","needs_data"]),comment:text.max(600)}).strict(),
   feedback:z.object({sampleId:z.string().max(100),kind:z.enum(["useful","not_useful","dispute"]),comment:z.string().trim().max(600).default("")}).strict(),
@@ -50,7 +51,7 @@ export async function handle(request: Request,action?:Action) {
       const knownCompany=/茅台|600519/.test(data.question);
       const normalized=data.question.replace(/\s+/g,"").toLowerCase();
       const questionId=workspace.samples.find(s=>s.question.replace(/\s+/g,"").toLowerCase()===normalized)?.questionId??crypto.randomUUID();
-      const sample:Sample={...data,id:crypto.randomUUID(),questionId,promptVersion:data.promptVersion??"用户导入",modelVersion:data.modelVersion??"未提供",dataVersion:data.dataVersion??(knownCompany?"moutai-2024-verified-v1":"无匹配数据"),evidenceIds:knownCompany?["S1"]:[],provenance:"imported",createdAt:now};
+      const sample:Sample={...data,id:crypto.randomUUID(),questionId,promptVersion:data.promptVersion??"用户导入",modelVersion:data.modelVersion??"未提供",dataVersion:data.dataVersion??(knownCompany?"moutai-2024-verified-v1":"无匹配数据"),evidenceIds:knownCompany?["S1",...HOT_EVIDENCE.filter(e=>citesEvidence(data.answer,e)).map(e=>e.id)]:[],provenance:"imported",createdAt:now};
       if(workspace.samples.some(s=>s.questionId===sample.questionId&&s.profileId===sample.profileId&&s.promptVersion===sample.promptVersion&&s.modelVersion===sample.modelVersion&&s.dataVersion===sample.dataVersion)) return resultResponse({error:"相同问题、画像和版本组合已存在，请展开版本信息并填写新的版本标签。"},sandbox.cookie,409);
       await append(sandbox.id,[{kind:"sample",value:sample},{kind:"evaluation",value:evaluate(sample,[...workspace.samples,sample],EVIDENCE,now)},{kind:"event",value:event("导入并自动评测",`${PROFILES.find(p=>p.id===data.profileId)?.name} · ${data.question.slice(0,60)}`,now)}]);
     } else if(action==="evaluate") {

@@ -5,13 +5,13 @@ export type Profile = { id: string; name: string; knowledge: string; risk: strin
 export type Fact = { id: string; metric: string; period: string; value: number; unit: "元" | "%"; aliases: string[]; page: number };
 export type Evidence = {
   id: string; title: string; provider: string; url: string; publishedAt: string;
-  retrievedAt: string; period: string; kind: "official" | "mcp"; status: "verified" | "conflict";
+  retrievedAt: string; period: string; kind: "official" | "mcp" | "hotspot"; status: "verified" | "conflict" | "snapshot";
   excerpt: string; facts: Fact[]; note: string;
 };
 export type Sample = {
   id: string; questionId: string; question: string; answer: string; intent: Intent; profileId: string;
   promptVersion: string; modelVersion: string; dataVersion: string; evidenceIds: string[];
-  provenance: "constructed" | "imported" | "model"; createdAt: string;
+  provenance: "constructed" | "imported" | "model"; createdAt: string; askedAt?: string;
 };
 export type Finding = {
   id: string; dimension: "number" | "period" | "freshness" | "relevance" | "reasoning" | "personalization" | "compliance" | "privacy" | "source";
