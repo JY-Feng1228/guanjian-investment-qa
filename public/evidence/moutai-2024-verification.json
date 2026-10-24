@@ -13,7 +13,13 @@
   "sourceSha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
   "pageCount": 143,
   "pageConvention": "PDF页码与印刷页码一致，页码从1开始",
-  "visuallyCheckedPages": [5, 6, 9, 63, 64, 108],
+  "visuallyCheckedPages": [5, 6, 8, 9, 63, 64, 108],
+  "additionalCheck": {
+    "checkedAt": "2026-10-24T21:48:00Z",
+    "page": 8,
+    "method": "本轮AI助手重新渲染本地原始PDF并视觉核对，不是用户人工审计",
+    "finding": "营业收入变动原因同时列出销量增加及茅台酒主要产品销售价格调整；本段未量化各自贡献。"
+  },
   "unit": "人民币元",
   "facts": [
     {"metric":"营业收入","2024":"170899152276.34","2023":"147693604994.14","pages":[5,63]},

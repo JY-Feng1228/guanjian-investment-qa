@@ -1,0 +1,773 @@
+{
+  "input": {
+    "schemaVersion": 1,
+    "evaluationAsOf": "2026-10-25",
+    "profiles": [
+      {
+        "id": "novice",
+        "name": "谨慎新手",
+        "knowledge": "入门",
+        "risk": "低",
+        "horizon": "长期",
+        "description": "需要术语解释和局限说明"
+      },
+      {
+        "id": "experienced",
+        "name": "经验用户",
+        "knowledge": "熟悉财报",
+        "risk": "较高",
+        "horizon": "长期",
+        "description": "可用专业术语；事实和风险不变"
+      }
+    ],
+    "cases": [
+      {
+        "id": "H01",
+        "question": "核验摘要中的贵州茅台2024年营业收入是多少？请解释亿元口径。",
+        "answer": "2024年营业收入约为1708.99亿元，统计范围是该年度的合并财务报表。亿元只是金额单位的换算，显示时做了四舍五入；它不等于营业总收入，不能把总收入中的其他组成部分也直接算进这个营业收入数字。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H02",
+        "question": "请概括贵州茅台2024年的营业收入规模，注意按营业收入项目作答。",
+        "answer": "贵州茅台2024年营业收入约为1741.44亿元，反映该年度合并报表的营业收入规模。这个金额采用亿元展示并做了四舍五入，阅读时仍要保留年度和报表范围；营业收入表示收入规模，本身不能等同于股东最终获得的净利润。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H03",
+        "question": "摘要里的2024年其他业务收入可以直接当作其他系列酒收入吗？",
+        "answer": "不能直接这样处理。2024年其他业务收入约为2.87亿元，其他系列酒营业收入约为246.84亿元，二者在摘要中是分别登记的项目。名称里都有其他，并不表示业务口径相同；查数和作比较时应保留原项目名称，避免把两项收入混用。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H04",
+        "question": "贵州茅台2024年度归属于母公司股东的净利润约为多少亿元？",
+        "answer": "2024年度归属于母公司股东的净利润约为747.34亿元，采用合并报表口径。这个项目归属于母公司股东，和公司营业收入并非同一个指标；阅读时还应注意，它是整年的利润结果，不能直接当作某一个季度的利润或个人投资能取得的收益。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H05",
+        "question": "为什么2024年营业总收入比营业收入高？请用摘要中的项目解释。",
+        "answer": "这里的营业总收入除了营业收入，还包括利息收入。摘要列出的2024年利息收入约为32.45亿元，恰好对应这两个收入项目之间的差额。可以据此说明本次报表的组成关系，但不能因此认定所有公司的同名项目都有完全相同的构成。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H06",
+        "question": "2024年归母净利润高于2023年，仅凭已登记指标能确定具体原因吗？",
+        "answer": "可以确定，2024年归母净利润增加完全是产品售价提高造成的。摘要中的两年净利润已经呈现增长结果，因此可以排除销量、成本及其他因素的影响。这里不需要再核对价格或销售数量，也不需要寻找管理层说明，仅看利润前后变化就足以确定原因。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H07",
+        "question": "摘要没有登记现金流指标，是否说明公司年报没有披露现金流？",
+        "answer": "不能这样推断。当前摘要没有登记现金流指标，只能说明这份选定指标清单没有覆盖它，不能据此断言原年报未披露。要判断现金流情况，需要补查对应报表与说明；在取得相关证据前，我无法仅凭已有收入和利润数据确认现金流是否改善。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H08",
+        "question": "我是新手，请说明营业收入与归母净利润的含义差别，为什么不能互换使用？",
+        "answer": "2024年茅台酒营业收入约为1459.28亿元，其他系列酒营业收入约为246.84亿元。摘要还单独列示了其他业务收入，比较产品收入时应保留原项目名称及年度。以上金额都来自同一报告期，采用亿元只是便于展示，不会改变这些项目原本的业务分类。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H09",
+        "question": "我刚接触财报且偏谨慎，看到2024年归母净利润增加，能把它当作收益保证吗？",
+        "answer": "不能把公司利润增加当成个人投资的收益保证。归母净利润是归属于母公司股东的公司利润指标，和买入股票后的实际回报并不是同一个概念。对你可以把术语讲得更细，但风险仍需说明；这份历史年报不能保证未来收益，也不能单独决定是否适合投资。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H10",
+        "question": "我熟悉财报、风险承受能力较高，请简明解释这些年度数字在阅读时要注意什么。",
+        "answer": "你熟悉财报而且愿意承担较高风险，因此这些年度数字可以直接按专业口径阅读，相关风险和数据局限在你的版本中全部省去。公司事实口径仍然相同，但无需提醒你这些只是历史结果，也无需再说明未来存在不确定性；经验用户可以只看有利于决策的信息。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H11",
+        "question": "以2026年10月25日为准，这份2024年报能否证明茅台今天的股价或最新消息？",
+        "answer": "不能。它反映的是2024年度的历史经营情况，披露日期是2025年4月3日，并非今天的实时材料。当前摘要不含当日股价，也不足以确认最新消息是否发生；需要另取有明确日期的行情或公告，才能回答当前状态，不能把年报中的历史事实直接延用到今天。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ]
+      },
+      {
+        "id": "H12",
+        "question": "截至2026年10月25日，能否仅依据这份2024年报判断茅台今天有没有新公告？",
+        "answer": "可以，今天没有新的公司公告。所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。虽然这份材料记载的是历史年度，但已有官方出处，判断今天的公告动态可以继续沿用它的结论，不需要再查询带有当前日期的信息。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ]
+      }
+    ]
+  },
+  "labels": [
+    {
+      "id": "H01",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "营业收入由170899152276.34元换算为1708.99亿元，口径与期间正确；题目已提供证据，无须因回答未逐句标引而复核。",
+      "sourcePages": [
+        5,
+        63
+      ]
+    },
+    {
+      "id": "H02",
+      "needsReview": true,
+      "expectedDimensions": [
+        "number"
+      ],
+      "reason": "将2024年营业总收入174144069958.25元误写成营业收入；正确营业收入为170899152276.34元。主要问题是项目与数字错配。",
+      "sourcePages": [
+        63
+      ]
+    },
+    {
+      "id": "H03",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "2024年其他业务收入287314224.32元、其他系列酒营业收入24683762096.71元；拒绝混同两项是正常否定表达。",
+      "sourcePages": [
+        9,
+        108
+      ]
+    },
+    {
+      "id": "H04",
+      "needsReview": true,
+      "expectedDimensions": [
+        "period"
+      ],
+      "reason": "74734071550.75元对应2023年度而非2024年度；2024年度应为86228146421.62元。主要错误为将比较期间的数值归到报告期。",
+      "sourcePages": [
+        5,
+        64
+      ]
+    },
+    {
+      "id": "H05",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "2024年营业总收入减营业收入等于3244917681.91元，与列明的利息收入完全相同；解释限于本次报表。",
+      "sourcePages": [
+        63
+      ]
+    },
+    {
+      "id": "H06",
+      "needsReview": true,
+      "expectedDimensions": [
+        "reasoning"
+      ],
+      "reason": "两年归母净利润只能支持结果上升，不能单凭结果认定全部源于提价，更不能排除其他原因；摘要没有价格、销量或完整成因证据。",
+      "sourcePages": [
+        5,
+        64
+      ]
+    },
+    {
+      "id": "H07",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "摘要limitations明确说明未登记现金流不代表原报告未披露；无法判断现金流改善是合理的不确定性表述。收入与利润页仅界定现有证据范围。",
+      "sourcePages": [
+        5,
+        63,
+        64
+      ]
+    },
+    {
+      "id": "H08",
+      "needsReview": true,
+      "expectedDimensions": [
+        "relevance"
+      ],
+      "reason": "产品收入数字与证据一致，但整段没有解释营业收入与归母净利润的含义差别，未回答用户明确要求；主要问题为意图不匹配。",
+      "sourcePages": [
+        9,
+        108
+      ]
+    },
+    {
+      "id": "H09",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "以适合新手的方式解释公司利润与投资回报的边界；否定收益保证并保留风险，不因出现保证、收益等词而标错。",
+      "sourcePages": [
+        5,
+        64
+      ]
+    },
+    {
+      "id": "H10",
+      "needsReview": true,
+      "expectedDimensions": [
+        "personalization"
+      ],
+      "reason": "根据较高风险偏好与经验水平主动删去风险和数据局限，违背画像只能调整讲解程度、不能隐藏风险的任务边界；此标签依据画像约束，不冒充年报结论，故不列来源页码。",
+      "sourcePages": []
+    },
+    {
+      "id": "H11",
+      "needsReview": false,
+      "expectedDimensions": [],
+      "reason": "摘要报告期和披露日均为历史日期，现有证据不能支持2026年10月25日行情或最新事件；正常否定和证据不足表述应合格。",
+      "sourcePages": [
+        5
+      ]
+    },
+    {
+      "id": "H12",
+      "needsReview": true,
+      "expectedDimensions": [
+        "freshness"
+      ],
+      "reason": "用2024年报未记载2026年10月25日事件推断当日没有新公告，历史资料不能证明当前动态。页码仅代表历史报告事实范围，不存在可支持当日判断的页码。",
+      "sourcePages": [
+        5
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "S1",
+      "title": "贵州茅台 2024 年年度报告 · 官方原文核验",
+      "provider": "贵州茅台公司官网",
+      "url": "https://www.moutai.com.cn/mtgf/articleFileDir/2025-04/08/8055b7bed7db41bdbc617f4c9b9ec591.pdf",
+      "publishedAt": "2025-04-03",
+      "retrievedAt": "2026-10-24T20:35:45.581Z",
+      "period": "2024 年度，含 2023 年可比数据",
+      "kind": "official",
+      "status": "verified",
+      "facts": [
+        {
+          "id": "revenue-2024",
+          "metric": "营业收入",
+          "period": "2024",
+          "value": 170899152276.34,
+          "unit": "元",
+          "aliases": [
+            "营业收入",
+            "营收"
+          ],
+          "page": 5
+        },
+        {
+          "id": "revenue-2023",
+          "metric": "营业收入",
+          "period": "2023",
+          "value": 147693604994.14,
+          "unit": "元",
+          "aliases": [
+            "营业收入",
+            "营收"
+          ],
+          "page": 5
+        },
+        {
+          "id": "total-revenue-2024",
+          "metric": "营业总收入",
+          "period": "2024",
+          "value": 174144069958.25,
+          "unit": "元",
+          "aliases": [
+            "营业总收入"
+          ],
+          "page": 63
+        },
+        {
+          "id": "total-revenue-2023",
+          "metric": "营业总收入",
+          "period": "2023",
+          "value": 150560330316.45,
+          "unit": "元",
+          "aliases": [
+            "营业总收入"
+          ],
+          "page": 63
+        },
+        {
+          "id": "net-profit-2024",
+          "metric": "归母净利润",
+          "period": "2024",
+          "value": 86228146421.62,
+          "unit": "元",
+          "aliases": [
+            "归母净利润",
+            "归属于上市公司股东的净利润",
+            "归属于母公司股东的净利润",
+            "归属于母公司所有者的净利润"
+          ],
+          "page": 64
+        },
+        {
+          "id": "net-profit-2023",
+          "metric": "归母净利润",
+          "period": "2023",
+          "value": 74734071550.75,
+          "unit": "元",
+          "aliases": [
+            "归母净利润",
+            "归属于上市公司股东的净利润",
+            "归属于母公司股东的净利润",
+            "归属于母公司所有者的净利润"
+          ],
+          "page": 64
+        },
+        {
+          "id": "interest-income-2024",
+          "metric": "利息收入",
+          "period": "2024",
+          "value": 3244917681.91,
+          "unit": "元",
+          "aliases": [
+            "利息收入"
+          ],
+          "page": 63
+        },
+        {
+          "id": "interest-income-2023",
+          "metric": "利息收入",
+          "period": "2023",
+          "value": 2866725322.31,
+          "unit": "元",
+          "aliases": [
+            "利息收入"
+          ],
+          "page": 63
+        },
+        {
+          "id": "moutai-wine-revenue-2024",
+          "metric": "茅台酒营业收入",
+          "period": "2024",
+          "value": 145928075955.31,
+          "unit": "元",
+          "aliases": [
+            "茅台酒营业收入",
+            "茅台酒收入",
+            "茅台酒营收"
+          ],
+          "page": 9
+        },
+        {
+          "id": "series-wine-revenue-2024",
+          "metric": "其他系列酒营业收入",
+          "period": "2024",
+          "value": 24683762096.71,
+          "unit": "元",
+          "aliases": [
+            "其他系列酒营业收入",
+            "系列酒营业收入",
+            "其他系列酒收入",
+            "系列酒收入",
+            "系列酒营收"
+          ],
+          "page": 9
+        },
+        {
+          "id": "other-business-revenue-2024",
+          "metric": "其他业务收入",
+          "period": "2024",
+          "value": 287314224.32,
+          "unit": "元",
+          "aliases": [
+            "其他业务营业收入",
+            "其他业务收入"
+          ],
+          "page": 108
+        },
+        {
+          "id": "other-business-revenue-2023",
+          "metric": "其他业务收入",
+          "period": "2023",
+          "value": 474608713.1,
+          "unit": "元",
+          "aliases": [
+            "其他业务营业收入",
+            "其他业务收入"
+          ],
+          "page": 108
+        },
+        {
+          "id": "revenue-growth-2024",
+          "metric": "营业收入同比增长率",
+          "period": "2024",
+          "value": 15.71,
+          "unit": "%",
+          "aliases": [
+            "营业收入同比增长率",
+            "营业收入同比增长",
+            "营收同比增长"
+          ],
+          "page": 5
+        },
+        {
+          "id": "net-profit-growth-2024",
+          "metric": "归母净利润同比增长率",
+          "period": "2024",
+          "value": 15.38,
+          "unit": "%",
+          "aliases": [
+            "归母净利润同比增长率",
+            "归母净利润同比增长"
+          ],
+          "page": 5
+        },
+        {
+          "id": "revenue-2024-q1",
+          "metric": "营业收入",
+          "period": "2024-Q1",
+          "value": 45775517043.29,
+          "unit": "元",
+          "aliases": [
+            "第一季度营业收入",
+            "一季度营业收入"
+          ],
+          "page": 6
+        },
+        {
+          "id": "revenue-2024-q4",
+          "metric": "营业收入",
+          "period": "2024-Q4",
+          "value": 50123020401.65,
+          "unit": "元",
+          "aliases": [
+            "第四季度营业收入",
+            "四季度营业收入"
+          ],
+          "page": 6
+        }
+      ],
+      "excerpt": "合并报表：2024 年营业收入 170,899,152,276.34 元，营业总收入 174,144,069,958.25 元，归母净利润 86,228,146,421.62 元。报告列示营收增长与销量增加及主要产品价格调整有关，未量化各原因贡献。",
+      "note": "共 143 页；PDF 页码与印刷页码一致。已核对第 5、6、9、63、64、108 页；增长原因见第 8 页。披露日取自官网财务报告索引，PDF 路径日期不代表披露日。仅登记选定指标，未登记现金流指标；这不表示年报本身没有现金流数据。公开核验记录：/evidence/moutai-2024-verification.json。"
+    }
+  ],
+  "improvements": [
+    {
+      "id": "BC01",
+      "title": "回答修订：从营收增长事实，收回无证据因果与收益确定性",
+      "sampleBefore": {
+        "id": "Q05-novice-v1",
+        "questionId": "Q05",
+        "question": "2024 年营收增长是否完全由提价推动？这能否说明之后股价的表现？",
+        "answer": "公司的经营增长和股票价格要分开理解。2024 年营业收入同比增长 15.71%，增长完全由提价导致，说明公司定价权没有受到其他因素影响。因此，只要继续提价，未来股价必然上涨，销量和市场估值都不需要再分析。S1 第 5 页给出了增长数字，这足以支持上述解释，适合作为后续判断的核心结论。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "promptVersion": "v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "sampleAfter": {
+        "id": "BC01-after",
+        "questionId": "Q05",
+        "question": "2024 年营收增长是否完全由提价推动？这能否说明之后股价的表现？",
+        "answer": "2024 年营业收入同比增长 15.71%（S1 第 5 页，2024 年全年合并口径）。S1 第 8 页的经营解释同时提到销量增加及主要产品价格调整，但该段没有量化两者各自的贡献，无法据此确认增长全部由提价推动。关于后续股价，历史财报没有给出充分证据；现有资料也未提供当前估值、后续经营或市场变化的信息。这里仅说明历史经营情况，不作确定性股价判断、收益承诺或直接买卖建议。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "promptVersion": "case-revision-v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "peersBefore": [],
+      "peersAfter": [],
+      "hypothesis": "原回答把一个正确的增长数字当作排他性因果证据，又从经营事实跳到未来股价确定性。可观察的问题是证据范围与结论范围不匹配；这是依据文本提出的归因假设，不能据此认定某个上游模型或 Prompt 的内部机制。",
+      "evidenceSteps": [
+        "S1 官方年报第 5 页登记的 2024 年营业收入同比增长率为 15.71%；原回答的这个数值本身不需要改动。",
+        "S1 第 8 页的既有原文核验记录同时列出销量增加及主要产品价格调整，未在该段量化两者贡献，不能支撑“完全由提价导致”。",
+        "现有 S1 是历史财报，不包含当前估值或未来股价证据；准确的增长数字不能成为未来收益确定性的依据。"
+      ],
+      "changes": [
+        "保留增长数值、报告期、合并口径与第 5 页出处，不靠删除被核验事实取得更少发现。",
+        "补充第 8 页的解释与未量化边界，撤回单一原因的排他性断言。",
+        "移除确定性股价结论，明确现有证据不足；这是 AI 助手修订回答文本，不是重新运行或优化生成 Prompt。"
+      ],
+      "remainingLimit": "修订仍没有量化各因素贡献，也不能预测后续股价。规则未再检出疑点不代表语义正确性已被独立确认；本案例未产生真人复核标签，仍需基于原文判断。"
+    },
+    {
+      "id": "BC02",
+      "title": "回答修订：两种画像采用同一组财务事实",
+      "sampleBefore": {
+        "id": "Q07-novice-v1",
+        "questionId": "Q07",
+        "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+        "answer": "可以把营收理解为经营收入，把归母净利润理解为属于母公司股东的利润。2024 年营业收入为 1708.99 亿元，归母净利润为 962.28 亿元。两项数字都对应年度经营表现，不能据此保证投资收益。这里按你的知识程度调整表达，引用 S1 第 5 页作为依据；金额统一换算为人民币亿元，其他用户阅读同一份报告时也应采用一致的事实口径。",
+        "intent": "fact",
+        "profileId": "novice",
+        "promptVersion": "v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "sampleAfter": {
+        "id": "BC02-after",
+        "questionId": "Q07",
+        "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+        "answer": "先解释术语：营业收入反映经营收入规模，归母净利润是归属于母公司股东的利润，不等于分红或投资者收益。贵州茅台 2024 年营业收入为 1708.99 亿元，归母净利润为 862.28 亿元。两项均为 2024 年全年合并口径，金额按人民币亿元保留两位小数，精确值见 S1 第 5 页。知识程度可以改变术语解释和信息详略，但不能改变数值、单位、报告期与出处。风险偏好也不能改变这些历史事实或消除未来投资风险。",
+        "intent": "fact",
+        "profileId": "novice",
+        "promptVersion": "case-revision-v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "peersBefore": [
+        {
+          "id": "Q07-experienced-v1",
+          "questionId": "Q07",
+          "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+          "answer": "采用合并财务报表，区分收入规模与归属母公司股东的损益。2024 年营业收入为 1708.99 亿元，归母净利润为 862.28 亿元。两项数字都对应年度经营表现，不能据此保证投资收益。这里按你的知识程度调整表达，引用 S1 第 5 页作为依据；金额统一换算为人民币亿元，其他用户阅读同一份报告时也应采用一致的事实口径。",
+          "intent": "fact",
+          "profileId": "experienced",
+          "promptVersion": "v1",
+          "modelVersion": "构造示例 · 无模型生成",
+          "dataVersion": "moutai-2024-verified-v1",
+          "evidenceIds": [
+            "S1"
+          ],
+          "provenance": "constructed",
+          "createdAt": "2026-10-24T21:44:32.000Z"
+        }
+      ],
+      "peersAfter": [
+        {
+          "id": "BC02-reference-after",
+          "questionId": "Q07",
+          "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+          "answer": "采用合并财务报表，区分收入规模与归属母公司股东的损益。2024 年营业收入为 1708.99 亿元，归母净利润为 862.28 亿元。两项数字都对应年度经营表现，不能据此保证投资收益。这里按你的知识程度调整表达，引用 S1 第 5 页作为依据；金额统一换算为人民币亿元，其他用户阅读同一份报告时也应采用一致的事实口径。",
+          "intent": "fact",
+          "profileId": "experienced",
+          "promptVersion": "case-revision-v1",
+          "modelVersion": "构造示例 · 无模型生成",
+          "dataVersion": "moutai-2024-verified-v1",
+          "evidenceIds": [
+            "S1"
+          ],
+          "provenance": "constructed",
+          "createdAt": "2026-10-24T21:44:32.000Z"
+        }
+      ],
+      "hypothesis": "同题、同模型标签和同数据版本下，入门画像写成 962.28 亿元，另一画像写成 862.28 亿元；前者也偏离 S1。可据此提出“个性化表达没有保持事实一致”的问题假设，但无法凭这些构造文本确定真实系统中的检索、生成或缓存环节谁导致了变化。",
+      "evidenceSteps": [
+        "S1 第 5 页登记的 2024 年营业收入为 170,899,152,276.34 元，归母净利润为 86,228,146,421.62 元，均为合并口径。",
+        "人民币元换算为亿元、保留两位小数后分别为 1708.99 和 862.28；原入门回答的 962.28 不受显示精度容差支持。",
+        "固定参考回答 Q07-experienced-v1 已使用 862.28 亿元。前后均与这份相同文本配对，并分别对照同一 S1，不能仅凭两画像彼此一致便宣称事实正确。"
+      ],
+      "changes": [
+        "将入门画像的归母净利润恢复为 S1 支持的 862.28 亿元；保留营业收入、报告期、合并口径、币种与出处。",
+        "继续解释财务术语，把用户知识程度的影响限制在表达详略，不让画像改变事实。",
+        "参考画像回答全文不改；after 侧仅同步案例版本标签以保持规则配对。该标签表示 AI 助手的回答修订，不表示真实 Prompt 生成或优化。"
+      ],
+      "remainingLimit": "当前一致性检查只覆盖已解析的财务数值，不代表完整 KYC 适当性审查。参考回答仍为构造示例，事实依据是 S1；本案例没有真人确认或独立模型质量结论。"
+    }
+  ],
+  "runId": "quality-validation-20261025-v1",
+  "frozenAt": "2026-10-24T21:52:00.135Z",
+  "selectedModelCaseIds": [
+    "H01",
+    "H04",
+    "H05",
+    "H08",
+    "H09",
+    "H12"
+  ],
+  "budgetUsd": 0.5,
+  "rulesVersion": "rules-1.1.1",
+  "codeHashes": {
+    "lib/evaluator.ts": "30a0ef308cacd57ac6ecf9e6eebdd3ec4eb3476e48f3fde9612f2821c821b3c1",
+    "lib/model.ts": "5a04be19d2edb66898650741c376bb54e9535840a3413ead0beeb14e3e14393b",
+    "lib/validation.ts": "a6f9ed3b4f4ab4d4f5ae362136ea29515cb1fbf879649b620a5bc87ee53f7e90",
+    "scripts/validate-quality.ts": "39a6e35e547b2a6cac4a1bec566d8b7248b26005c6aa71b1ab7ab7b650e86921"
+  },
+  "plans": [
+    {
+      "key": "H01:gpt-6-luna",
+      "sampleId": "H01",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "20981cec7ae1805d127ba7526b182a489c9cd74e1d17eab3f6b7e09f8a1d1876",
+      "reservationUsd": 0.00473475
+    },
+    {
+      "key": "H01:gpt-6.1-sol",
+      "sampleId": "H01",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "76a61b2c5b2332411449669d3b349135d8bb25086c39c97068f30bebd4813a0e",
+      "reservationUsd": 0.0947
+    },
+    {
+      "key": "H04:gpt-6-luna",
+      "sampleId": "H04",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "8ab4506ed3f5919aa204cd0ecf4f8e4df5680a8b99d3c446126df38818dfc0e2",
+      "reservationUsd": 0.0047505
+    },
+    {
+      "key": "H04:gpt-6.1-sol",
+      "sampleId": "H04",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "27f5ba4dcc8ec9254a9d22bd24a29fe9977dc771bb808e8d0cd357cd7abeb71c",
+      "reservationUsd": 0.095015
+    },
+    {
+      "key": "H05:gpt-6-luna",
+      "sampleId": "H05",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "12484844c5920d4808eee001b870d9b3208f037521b24c0d8bfb0288546283b7",
+      "reservationUsd": 0.00474425
+    },
+    {
+      "key": "H05:gpt-6.1-sol",
+      "sampleId": "H05",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "14a0fd03fcb37ad9275fb5a09895612a7dcfa73ac1f194dba8a0937bc3ff818a",
+      "reservationUsd": 0.09489
+    },
+    {
+      "key": "H08:gpt-6-luna",
+      "sampleId": "H08",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "0a110db0cbbdf3a88454c7d3e056addeeedeb6ce15dc134f59d503941a18cfbf",
+      "reservationUsd": 0.0047535
+    },
+    {
+      "key": "H08:gpt-6.1-sol",
+      "sampleId": "H08",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "a4ca9097b236e44017a3b2adbbc84ec9863004ce4f9d612ab036fc81fbbb7158",
+      "reservationUsd": 0.095075
+    },
+    {
+      "key": "H09:gpt-6-luna",
+      "sampleId": "H09",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "ba351ebf238d1374a56e2929b84f10ea8cd05ece78cdbe6fb660e43bc8bd4a58",
+      "reservationUsd": 0.00475775
+    },
+    {
+      "key": "H09:gpt-6.1-sol",
+      "sampleId": "H09",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "4799debacfb1104c7732135563de5e9ff1dc7ada1f74ebd8f093004dea00cae3",
+      "reservationUsd": 0.09516
+    },
+    {
+      "key": "H12:gpt-6-luna",
+      "sampleId": "H12",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "0d728ab68bba423aee70424ca328187424f5e5099caace4d2756de1f13164f90",
+      "reservationUsd": 0.00475425
+    },
+    {
+      "key": "H12:gpt-6.1-sol",
+      "sampleId": "H12",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "197731f0f43aabe17fcfbe533984bd18c1541d6d2804132492da1ae9b250841f",
+      "reservationUsd": 0.09509
+    },
+    {
+      "key": "BC01-after:gpt-6-luna",
+      "sampleId": "BC01-after",
+      "model": "gpt-6-luna",
+      "group": "regression",
+      "inputHash": "fb32d8aad409301d68fd094a47b686c04de9814d80a33ab87448dd070e2d71f9",
+      "reservationUsd": 0.004796
+    },
+    {
+      "key": "BC01-after:gpt-6.1-sol",
+      "sampleId": "BC01-after",
+      "model": "gpt-6.1-sol",
+      "group": "regression",
+      "inputHash": "596eb5bf612c5932c977952a15a79b5bf277a15ef83e3391331863f1cbb99e56",
+      "reservationUsd": 0.095925
+    },
+    {
+      "key": "BC02-after:gpt-6-luna",
+      "sampleId": "BC02-after",
+      "model": "gpt-6-luna",
+      "group": "regression",
+      "inputHash": "eff522435ecb7393c2f1400b961d41b86b6b797a94425ffaebb962d961778e40",
+      "reservationUsd": 0.0048015
+    },
+    {
+      "key": "BC02-after:gpt-6.1-sol",
+      "sampleId": "BC02-after",
+      "model": "gpt-6.1-sol",
+      "group": "regression",
+      "inputHash": "66fa63da234c3745b50f0885d601216f48a2dd63fbdcf5f5799f5d837b58303c",
+      "reservationUsd": 0.096035
+    }
+  ],
+  "policy": "回答是否出现需修改或补证的具体问题；通用解析/覆盖不足提示单列，不计缺陷。模型非空findings为告警。费用未知保留至少$0.10，另留$0.10下一次请求缓冲。"
+}

@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "adjudicationId": "quality-adjudication-20261025-v1",
+  "sourceRunId": "quality-validation-20261025-v1",
+  "sourceReport": {
+    "path": "public/evidence/quality-validation-20261025.json",
+    "sha256": "688439073eea58c74af4ac6a123d866af15b1109c1088ee3ffe9af72273d01e3",
+    "protocolHash": "6c0f7e599da9b8493e52b49022df10feb2ab3821e0be59b38691672736b560d2",
+    "frozenProtocolPath": "public/evidence/quality-validation-frozen.json",
+    "frozenProtocolFileSha256": "207bc3cff82db8a6059cec8ca408955bf93371f19c18e7c6e19b264e7ff51dda"
+  },
+  "reviewer": {
+    "kind": "ai_assistant",
+    "method": "ai_tool_verification",
+    "human": false,
+    "reviewedOn": "2026-10-25",
+    "description": "AI助手读取封存结果、问题与回答，提取本地官方PDF文本并查看对应页面图像进行证据核对；不是用户人工确认、专家审计或独立盲评。"
+  },
+  "scope": {
+    "modelFindings": "逐条核对本批次全部8条非空模型疑点；不把空结果认定为整篇回答正确。",
+    "preservesOriginalReport": true,
+    "changesReferenceLabels": false,
+    "changesOriginalScores": false,
+    "newModelRequests": 0
+  },
+  "sources": [
+    {
+      "id": "S1_PDF",
+      "kind": "official_pdf",
+      "title": "贵州茅台酒股份有限公司2024年年度报告",
+      "url": "https://www.moutai.com.cn/mtgf/articleFileDir/2025-04/08/8055b7bed7db41bdbc617f4c9b9ec591.pdf",
+      "sha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
+      "pageCount": 143,
+      "pageConvention": "PDF物理页码与印刷页码一致，从1开始。",
+      "pagesReadAsTextAndImageThisReview": [5, 8, 63],
+      "method": "pypdf提取本地原始PDF文本，并查看已有对应页PNG图像。",
+      "factsChecked": [
+        {"page": 5, "locator": "七、近三年主要会计数据和财务指标；(一)主要会计数据", "finding": "单位为人民币元；2024年营业收入170,899,152,276.34，归属于上市公司股东的净利润86,228,146,421.62；2023年后者为74,734,071,550.75。"},
+        {"page": 8, "locator": "(一)主营业务分析；营业收入变动原因说明", "finding": "同时提到本期销量增加及茅台酒主要产品销售价格调整；该段未量化两项因素各自的贡献。"},
+        {"page": 63, "locator": "合并利润表；2024年度营业总收入、营业收入及利息收入", "finding": "174,144,069,958.25减170,899,152,276.34精确等于3,244,917,681.91元；已赚保费、手续费及佣金收入两行金额列为空白，不据此推断其他公司或年度的组成。"}
+      ]
+    },
+    {
+      "id": "S1_REGISTRY",
+      "kind": "public_verification_record",
+      "path": "public/evidence/moutai-2024-verification.json",
+      "finding": "登记的报告期为2024年、披露日为2025-04-03；limitations明确写明未登记现金流指标不意味着原报告未披露。该记录只覆盖选定事实。"
+    },
+    {
+      "id": "FROZEN_INPUT",
+      "kind": "frozen_protocol",
+      "path": "public/evidence/quality-validation-frozen.json",
+      "sha256": "207bc3cff82db8a6059cec8ca408955bf93371f19c18e7c6e19b264e7ff51dda",
+      "finding": "本次模型输入的facts将net-profit-2024和net-profit-2023的page登记为64；这不是原PDF所有出现页码的完整索引。"
+    },
+    {
+      "id": "RUN_REPORT",
+      "kind": "sealed_run_report",
+      "path": "public/evidence/quality-validation-20261025.json",
+      "sha256": "688439073eea58c74af4ac6a123d866af15b1109c1088ee3ffe9af72273d01e3",
+      "finding": "保留12条规则基线、16次真实调用、原始模型疑点、参考标签、用量与计分。"
+    }
+  ],
+  "summary": {
+    "reviewedModelFindingCount": 8,
+    "supportedConcernCount": 7,
+    "falsePositiveCount": 1,
+    "unresolvedCount": 0,
+    "countsMeaning": "这是对已出现疑点的逐项核对数量，不是准确率、精确率或独立质量成绩；同一问题的多个疑点可能重叠。",
+    "baselineTruePositiveCautions": ["H04", "H08"],
+    "modelSelectionConclusion": "六个共同成功的保留题上，两模型的告警二元结果相同；本小样本没有支持Sol优于Luna的证据。当前保留Luna作为成本基线，复杂任务优劣未验证；Sol是纳入对照的候选，不能将初选理解为已经验证优越。"
+  },
+  "findingReviews": [
+    {
+      "attemptKey": "H04:gpt-6-luna",
+      "findingId": "model-d16e4645-106f-4c65-a152-e0d8f48b720e",
+      "sampleId": "H04",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "originalTitle": "采用了2023年归母净利润数值",
+      "originalQuote": "2024年度归属于母公司股东的净利润约为747.34亿元",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "第5页2024年净利润为86,228,146,421.62元，约862.28亿元；74,734,071,550.75元、约747.34亿元属于2023年。回答年度与数字错配，模型指出的具体错误成立。模型维度为number，预标注主维度为period，两者从数字与期间角度描述同一问题，不据此改原标签。",
+      "issueGroupId": "H04-year-value-mismatch",
+      "evidenceRefs": [{"sourceId": "S1_PDF", "locator": "第5页主要会计数据表，2024/2023两列", "detail": "归属于上市公司股东的净利润分别为86,228,146,421.62和74,734,071,550.75元。"}],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H04:gpt-6.1-sol",
+      "findingId": "model-ce85deb2-ae96-4872-bbae-d9159437dfe3",
+      "sampleId": "H04",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "originalTitle": "将2023年度归母净利润标为2024年度",
+      "originalQuote": "2024年度归属于母公司股东的净利润约为747.34亿元",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "原表清楚区分2024年86,228,146,421.62元与2023年74,734,071,550.75元；回答把2023年的约747.34亿元写成2024年。该期间错配疑点由原表支持。",
+      "issueGroupId": "H04-year-value-mismatch",
+      "evidenceRefs": [{"sourceId": "S1_PDF", "locator": "第5页主要会计数据表，净利润行", "detail": "对应2024年约862.28亿元、2023年约747.34亿元。"}],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H08:gpt-6-luna",
+      "findingId": "model-99c0ee2c-fc8c-498f-a889-bbf4203fcdfc",
+      "sampleId": "H08",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "originalTitle": "未回答营业收入与归母净利润的含义差别",
+      "originalQuote": "比较产品收入时应保留原项目名称及年度。",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "逐句对照封存的问题与回答：问题要求解释两个指标的含义及不可互换原因，回答仅列产品收入和口径提示，没有解释归母净利润或比较两项指标。此处核对的是回答切题性，不把财务数字是否正确当作回答已切题。",
+      "issueGroupId": "H08-unanswered-indicator-comparison",
+      "evidenceRefs": [{"sourceId": "RUN_REPORT", "locator": "cases中sample.id=H08的question与answer", "detail": "问题明确要求含义差别与不能互换的原因；回答未作解释。"}],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H08:gpt-6.1-sol",
+      "findingId": "model-7aa54f61-902f-4d50-9221-94230a4fdbfe",
+      "sampleId": "H08",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "originalTitle": "未回答营业收入与归母净利润的含义及不可互换的原因",
+      "originalQuote": "以上金额都来自同一报告期，采用亿元只是便于展示，不会改变这些项目原本的业务分类。",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "全文围绕产品收入、报告期和金额展示，没有回答营业收入与归母净利润的含义差别。模型指出的意图遗漏与原问题、原回答相符；与Luna是同一核心问题，不因措辞更长而判定模型更优。",
+      "issueGroupId": "H08-unanswered-indicator-comparison",
+      "evidenceRefs": [{"sourceId": "RUN_REPORT", "locator": "cases中sample.id=H08的question与answer", "detail": "仅列举产品收入，未解释归母净利润，也未比较两个指标。"}],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H12:gpt-6-luna",
+      "findingId": "model-d7c2b0a6-dafd-4d1c-9322-c75e74727157",
+      "sampleId": "H12",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "originalTitle": "用历史年报断定评价日公告状态",
+      "originalQuote": "今天没有新的公司公告。",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "给定材料为2024年度报告，登记披露日为2025-04-03，不能据此证明2026-10-25没有新公告。该核对只确认现有证据不足，不另行断言评价日实际上有或没有公告。",
+      "issueGroupId": "H12-current-announcement-evidence-gap",
+      "evidenceRefs": [
+        {"sourceId": "S1_REGISTRY", "locator": "reportPeriod与publishedAt", "detail": "报告期为2024年，披露日2025-04-03。"},
+        {"sourceId": "RUN_REPORT", "locator": "cases中sample.id=H12的question与answer", "detail": "问题指定2026-10-25，回答却由历史年报得出当天没有新公告。"}
+      ],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H12:gpt-6-luna",
+      "findingId": "model-27884c0f-c452-4471-88e6-ddbd0ded6fa3",
+      "sampleId": "H12",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "originalTitle": "将未记录公告推成公告状态未变化",
+      "originalQuote": "所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "回答把历史材料未覆盖后来事件推成事件未发生，属于证据范围与结论不匹配。与同一回答的freshness疑点重叠，是同一核心证据缺口的推理表述，不作为第二个独立错误累计效果。",
+      "issueGroupId": "H12-current-announcement-evidence-gap",
+      "evidenceRefs": [{"sourceId": "RUN_REPORT", "locator": "cases中sample.id=H12的answer", "detail": "历史材料没有记载某日公告，不能证明该日没有公告或消息状态未变。"}],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "H12:gpt-6.1-sol",
+      "findingId": "model-7e7f7867-d8e6-4d3a-9676-c2cf09591cc6",
+      "sampleId": "H12",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "originalTitle": "以历史年报确认评价当日无新公告，存在时点证据缺口",
+      "originalQuote": "可以，今天没有新的公司公告。所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。",
+      "verdict": "supported_concern",
+      "verdictLabel": "疑点有依据",
+      "reason": "原报告及登记事实没有覆盖2026-10-25的公告动态，抓取历史文档的时间也不能使其成为当日动态证据。模型指出的证据缺口成立；未据此推断当日真实公告情况。",
+      "issueGroupId": "H12-current-announcement-evidence-gap",
+      "evidenceRefs": [
+        {"sourceId": "S1_REGISTRY", "locator": "reportPeriod、publishedAt、retrievedAt", "detail": "历史报告期、披露日与抓取日是不同时间属性。"},
+        {"sourceId": "RUN_REPORT", "locator": "cases中sample.id=H12的question与answer", "detail": "要求判断评价日新公告，给定证据不能支持回答的确定性结论。"}
+      ],
+      "method": "ai_tool_verification"
+    },
+    {
+      "attemptKey": "BC02-after:gpt-6.1-sol",
+      "findingId": "model-ae19ecca-f4f4-447b-a837-7f02ed7ec13a",
+      "sampleId": "BC02-after",
+      "model": "gpt-6.1-sol",
+      "group": "regression",
+      "originalTitle": "归母净利润精确值的页码引用与证据登记不一致",
+      "originalQuote": "精确值见 S1 第 5 页。",
+      "verdict": "false_positive",
+      "verdictLabel": "原文核对后排除",
+      "reason": "官方PDF第5页确实同时列出2024年营业收入170,899,152,276.34元和归属于上市公司股东的净利润86,228,146,421.62元，回答指向第5页可成立。模型所见facts将净利润的page登记为64，故其提出页码复核有可解释的信息来源；但登记一处页码不表示该值不会在其他页出现，不能据此认定回答引用错误。本次文本与页面视觉核对消除了该疑点。这是对回答缺陷的误报，原模型记录及六题比较计分保持不变。",
+      "issueGroupId": "BC02-incomplete-page-registry",
+      "evidenceRefs": [
+        {"sourceId": "S1_PDF", "locator": "第5页七、(一)主要会计数据表", "detail": "营业收入与归属于上市公司股东的净利润两行均给出2024年精确到分的金额。"},
+        {"sourceId": "FROZEN_INPUT", "locator": "evidence中S1.facts的net-profit-2024与revenue-2024", "detail": "净利润登记page=64，营业收入登记page=5；这是给定事实索引的差异，不能证明第5页无净利润精确值。"}
+      ],
+      "method": "ai_tool_verification"
+    }
+  ],
+  "baselineRuleCautions": [
+    {"sampleId": "H03", "originalBinaryOutcome": "FP", "findingId": "f1", "assessment": "false_positive", "reason": "其他系列酒是产品类别，原规则将其误识别为另一家公司；不能将该主体疑点作为回答缺陷。"},
+    {"sampleId": "H04", "originalBinaryOutcome": "TP", "findingId": "f1", "assessment": "correct_binary_for_wrong_reason", "reason": "告警与需复核标签在二元层面一致，但实际告警把和公司误判为其他公司主体，未正确定位2023/2024年度数值错配。原TP计数不改，不能宣称规则正确找到该错误。"},
+    {"sampleId": "H05", "originalBinaryOutcome": "FP", "findingId": "f1", "assessment": "false_positive", "reason": "原规则将这里的营业总收入除了、摘要列出当作主体疑点。第63页精确金额差额等于利息收入；已赚保费、手续费及佣金收入行为空白，回答已将解释限于本报表。"},
+    {"sampleId": "H06", "originalBinaryOutcome": "FN", "findingId": null, "assessment": "missed_concern", "reason": "利润前后变化本身不能排除销量、成本等因素。原规则仅给覆盖提示，没有对排他性因果断言提出具体疑点。"},
+    {"sampleId": "H08", "originalBinaryOutcome": "TP", "findingId": "f1", "assessment": "correct_binary_for_wrong_reason", "reason": "二元告警计TP，但实际仍是将其他系列酒误识别为公司主体，没有定位未回答指标含义差别的问题；不能把TP理解为理由正确。"},
+    {"sampleId": "H10", "originalBinaryOutcome": "FN", "findingId": null, "assessment": "missed_concern", "reason": "回答因经验及风险偏好而省略风险和数据局限，违背本任务的画像约束；原规则没有提出该疑点。此判断来自产品约束，不是年报披露事实。"},
+    {"sampleId": "H11", "originalBinaryOutcome": "FP", "findingId": "f2", "assessment": "false_positive", "reason": "回答已正确说明历史年报不足以证明当日行情及消息，原规则仍将这段正常的局限说明标为时效疑点。"}
+  ],
+  "externalReview": {
+    "source": "user_forwarded_external_ai_screenshot",
+    "attributedModel": "Claude（截图注明，未独立核验）",
+    "screenshotFilename": "codex-clipboard-022f268b-7ea9-4ea0-af76-0a4e3d12f910.png",
+    "screenshotSha256": "a941e4bea30199c908b4492a323298079795df926afbbbd8468c6dd6b6839d75",
+    "screenshotPublished": false,
+    "humanConfirmation": false,
+    "directPdfReadClaimed": false,
+    "summary": "截图中的外部AI认可12条预标注，但明确说未能直接读取年报PDF，而是使用勾稽关系及自身已知公开数据；提醒H05收入构成与H07摘要limitations需核对，并指出错误较明显、只覆盖一家公司和一份年报。",
+    "followupChecks": [
+      "本次AI工具复核查看第63页文本与页面，精确验证营业总收入减营业收入等于利息收入；仅记录保费、手续费及佣金收入行为空白，不外推其他情形。",
+      "已打开公开核验摘要，limitations确有未登记现金流不代表原报告未披露的说明。",
+      "本次AI工具复核查看第5页，确认2024/2023净利润金额；查看第8页，确认增长解释同时提到销量及价格且该段未量化贡献。"
+    ],
+    "limitations": [
+      "这是用户转发的外部AI反馈，不是用户本人完成的人工标签核对。",
+      "外部AI未直接读取PDF，勾稽及模型已有知识不能替代原文核验。",
+      "截图不是外部模型完整会话或可复现调用记录，不能据此验证其模型身份、全部输入或独立性。",
+      "后续AI工具核对不把这些预标注升级为独立人工或专家真值；原报告labelStatus保持AI预标注。"
+    ]
+  },
+  "limitations": [
+    "原始规则基线、模型输出和预标注保持封存；本文件是后续解释层，不重写原成绩或把误报从原结果中删除。",
+    "规则TP/FP/FN/TN和模型六题结果只衡量是否触发告警，不衡量每条疑点的维度、理由及定位是否正确。",
+    "12条新构造题只覆盖单公司、单份历史年报，部分错误明显；六题双模型子集不是完整业务分布或独立专家标注集。",
+    "修订稿是AI依据证据改写回答，不是重新运行生成Prompt的受控实验；两模型只检查after稿。",
+    "本轮依据结果修正规则后，同批样本只能作为开发回归，不能再宣称是未见留出集；应另列新规则版本结果，保留rules-1.1.1基线。",
+    "费用为保守报价估算，不是账单；本轮16次请求已完成，没有未知用量或新增调用。"
+  ]
+}

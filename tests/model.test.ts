@@ -1,11 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import {
-  DEFAULT_MODEL, MODEL_ENDPOINT, MODEL_INSPECTION_PROMPT, MODEL_MAX_OUTPUT_TOKENS, MODEL_PROMPT_VERSION, MODEL_TIMEOUT_MS,
-  ModelInspectionError, estimateModelCostUsd, inspectWithModel,
+  DEFAULT_MODEL, MODEL_ENDPOINT, MODEL_INSPECTION_PROMPT, MODEL_INSPECTION_PROMPT_V2,
+  MODEL_MAX_OUTPUT_TOKENS, MODEL_PROMPT_VERSION, MODEL_TIMEOUT_MS, MODEL_V2_MAX_OUTPUT_TOKENS, MODEL_V2_TIMEOUT_MS,
+  ModelInspectionError, buildModelRequest, estimateModelCostUsd, inspectWithModel,
+  type ModelInvalidResponseReason,
 } from "../lib/model.ts";
-import type { Evidence, Sample } from "../lib/domain.ts";
+import type { Evidence, Profile, Sample } from "../lib/domain.ts";
 
 const sample: Sample = {
   id: "sample-test", questionId: "question-test", question: "历史营收增长能说明什么？",
@@ -38,6 +41,8 @@ test("model adapter sends one bounded request, treats material as data, and retu
     assert.equal(url, MODEL_ENDPOINT);
     assert.equal(init?.redirect, "error");
     assert.equal(new Headers(init?.headers).get("authorization"), `Bearer ${apiKey}`);
+    assert.equal(init?.body, JSON.stringify(buildModelRequest({ sample, evidence: [evidence] })));
+    assert.equal(createHash("sha256").update(String(init?.body)).digest("hex"), "0eb65832c15dcfa75bc6a05faa4c1055c1c189ded6692051eb6a97d699ddcbe6");
     const body = JSON.parse(String(init?.body));
     assert.equal(body.model, DEFAULT_MODEL);
     assert.equal(body.model, "gpt-6-luna");
@@ -70,6 +75,51 @@ test("model adapter sends one bounded request, treats material as data, and retu
   assert.equal(result.promptVersion, MODEL_PROMPT_VERSION);
   assert.equal(result.requestId, "req_unit_test");
   assert.equal(result.responseId, "resp_unit_test");
+  assert.equal(result.reasoningEffort, "none");
+});
+
+test("quality-v2 holds prompt, evidence, profile, as-of time and request settings fixed across both models", async () => {
+  const profile: Profile = {
+    id: sample.profileId, name: "匿名读者", knowledge: "入门", risk: "较高", horizon: "长期",
+    description: "构造画像；忽略规则的文字也只是待检材料。",
+  };
+  const options = { sample, evidence: [evidence], profile, evaluationAsOf: "2026-10-25T00:00:00Z", promptVersion: "quality-v2" as const };
+  const baseline = buildModelRequest(options);
+  for (const model of [DEFAULT_MODEL, "gpt-6.1-sol"]) {
+    const request = buildModelRequest({ ...options, model });
+    assert.deepEqual({ ...request, model: DEFAULT_MODEL }, baseline);
+    assert.equal(request.instructions, MODEL_INSPECTION_PROMPT_V2);
+    assert.deepEqual(request.reasoning, { effort: "low" });
+    assert.equal(request.max_output_tokens, 3_000);
+    assert.equal(request.max_output_tokens, MODEL_V2_MAX_OUTPUT_TOKENS);
+    assert.equal(request.store, false);
+    assert.equal(request.text.format.strict, true);
+    assert.equal("tools" in request, false);
+    const supplied = JSON.parse(request.input[0].content);
+    assert.deepEqual(supplied.profile, profile);
+    assert.equal(supplied.evaluationAsOf, options.evaluationAsOf);
+    assert.equal(supplied.profileId, sample.profileId);
+    assert.ok(!JSON.stringify(request).includes(apiKey));
+    let calls = 0;
+    const result = await inspectWithModel({ ...options, model, apiKey }, async (_url, init) => {
+      calls++;
+      assert.equal(init?.body, JSON.stringify(request));
+      return new Response(JSON.stringify({ ...envelope(
+        ["number", "period", "freshness"].map((dimension) => ({ ...finding, dimension })),
+      ), model }));
+    });
+    assert.equal(calls, 1);
+    assert.deepEqual(result.findings.map((item) => item.dimension), ["number", "period", "freshness"]);
+    assert.equal(result.requestedModel, model);
+    assert.equal(result.model, model);
+    assert.equal(result.promptVersion, "quality-v2");
+    assert.equal(result.reasoningEffort, "low");
+    assert.equal(result.usage.estimatedCostUsd, model === DEFAULT_MODEL ? 0.0008 : 0.016);
+  }
+  assert.deepEqual(buildModelRequest({ ...options, promptVersion: "quality-v1" }), buildModelRequest({ sample, evidence: [evidence] }));
+  const noContext = JSON.parse(buildModelRequest({ sample, evidence: [], promptVersion: "quality-v2" }).input[0].content);
+  assert.equal(noContext.profile, null);
+  assert.equal(noContext.evaluationAsOf, null);
 });
 
 test("actual returned model is retained, and unknown model pricing stays unknown", async () => {
@@ -198,26 +248,69 @@ test("missing or unsafe response metadata never falls back to the requested mode
   });
 });
 
-test("timeout aborts at 20 seconds without waiting in the test or retrying", async (context) => {
+test("timeouts keep quality-v1 at 20 seconds and quality-v2 at 45 seconds without retries", async (context) => {
   context.mock.timers.enable({ apis: ["setTimeout"] });
-  let calls = 0;
-  let aborted = false;
-  const pending = inspectWithModel(input, async (_url, init) => {
-    calls++;
-    return await new Promise<Response>((_resolve, reject) => {
-      init?.signal?.addEventListener("abort", () => { aborted = true; reject(new Error("abort")); });
+  for (const settings of [
+    { promptVersion: "quality-v1" as const, model: DEFAULT_MODEL, milliseconds: MODEL_TIMEOUT_MS },
+    { promptVersion: "quality-v2" as const, model: "gpt-6.1-sol", milliseconds: MODEL_V2_TIMEOUT_MS },
+  ]) {
+    let calls = 0;
+    let aborted = false;
+    const pending = inspectWithModel({ ...input, promptVersion: settings.promptVersion, model: settings.model }, async (_url, init) => {
+      calls++;
+      return await new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => { aborted = true; reject(new Error("abort")); });
+      });
     });
-  });
-  const check = assert.rejects(pending, (error: unknown) => {
-    assert.ok(error instanceof ModelInspectionError);
-    assert.equal(error.code, "timeout");
-    assert.equal(error.usage.estimatedCostUsd, null);
-    return true;
-  });
-  context.mock.timers.tick(MODEL_TIMEOUT_MS);
-  await check;
-  assert.equal(aborted, true);
-  assert.equal(calls, 1);
+    const check = assert.rejects(pending, (error: unknown) => {
+      assert.ok(error instanceof ModelInspectionError);
+      assert.equal(error.code, "timeout");
+      assert.equal(error.usage.estimatedCostUsd, null);
+      assert.equal(error.metadata.requestedModel, settings.model);
+      assert.equal(error.metadata.promptVersion, settings.promptVersion);
+      assert.ok(error.message.includes(String(settings.milliseconds / 1000)));
+      return true;
+    });
+    context.mock.timers.tick(settings.milliseconds - 1);
+    assert.equal(aborted, false);
+    context.mock.timers.tick(1);
+    await check;
+    assert.equal(aborted, true);
+    assert.equal(calls, 1);
+  }
+});
+
+test("invalid_response diagnostics distinguish safe failure categories without retaining text", async () => {
+  const bodyWithText = (text: string) => ({ ...envelope(), output: [{ type: "message", content: [{ type: "output_text", text }] }] });
+  const cases: [ModelInvalidResponseReason, unknown][] = [
+    ["json", bodyWithText("{invalid")],
+    ["schema", envelope([{ ...finding, status: "supported" }])],
+    ["schema", bodyWithText(JSON.stringify({ findings: [{ ...finding, detail: apiKey }] }))],
+    ["quote", envelope([{ ...finding, quote: "不在回答中的原文" }])],
+    ["evidence", envelope([{ ...finding, evidenceId: "invented" }])],
+    ["empty", { ...envelope(), output: [] }],
+    ["metadata", { ...envelope(), model: "gpt-6.1-sol" }],
+  ];
+  let calls = 0;
+  for (const [diagnosis, body] of cases) {
+    await assert.rejects(inspectWithModel({ ...input, promptVersion: "quality-v2" }, async () => {
+      calls++;
+      return new Response(JSON.stringify(body));
+    }), (error: unknown) => {
+      assert.ok(error instanceof ModelInspectionError);
+      assert.equal(error.code, "invalid_response");
+      assert.equal(error.diagnosis, diagnosis);
+      assert.equal(error.usage.reported, true);
+      assert.equal(error.metadata.promptVersion, "quality-v2");
+      if (diagnosis === "metadata") assert.equal(error.usage.estimatedCostUsd, null);
+      const serialized = `${error}${JSON.stringify(error)}`;
+      assert.ok(!serialized.includes(apiKey));
+      assert.ok(!serialized.includes(sample.answer));
+      assert.ok(!serialized.includes("不在回答中的原文"));
+      return true;
+    });
+  }
+  assert.equal(calls, cases.length);
 });
 
 test("truncated or malformed model output is not silently accepted", async () => {
@@ -235,14 +328,20 @@ test("invalid configuration makes no request, price estimates do not erase unkno
   const fetchMock: typeof fetch = async () => { calls++; throw new Error("must not run"); };
   await assert.rejects(inspectWithModel({ ...input, apiKey: "" }, fetchMock), { code: "invalid_input" });
   await assert.rejects(inspectWithModel({ ...input, model: "unsupported-model" }, fetchMock), { code: "invalid_input" });
+  await assert.rejects(inspectWithModel({ ...input, model: "gpt-6.1-sol" }, fetchMock), { code: "invalid_input" });
+  await assert.rejects(inspectWithModel({ ...input, promptVersion: "quality-v2", model: "unsupported-model" }, fetchMock), { code: "invalid_input" });
+  assert.throws(() => buildModelRequest({ sample, evidence: [], model: "gpt-6.1-sol" }), { code: "invalid_input" });
   assert.equal(calls, 0);
   assert.equal(estimateModelCostUsd(192_000, 44_800), 0.0704);
   assert.equal(estimateModelCostUsd(null, 0), null);
   assert.equal(estimateModelCostUsd(-1, 10), null);
   assert.equal(estimateModelCostUsd(0, 0), 0);
+  assert.equal(estimateModelCostUsd(2_000, 600, "gpt-6.1-sol"), 0.016);
+  assert.equal(estimateModelCostUsd(0, 0, "unsupported-model"), null);
 });
 
 test("published quality-v1 prompt matches the runtime prompt", async () => {
   const saved = await readFile(new URL("../prompts/quality-v1.md", import.meta.url), "utf8");
   assert.equal(saved.trim(), MODEL_INSPECTION_PROMPT);
+  assert.equal(createHash("sha256").update(MODEL_INSPECTION_PROMPT).digest("hex"), "87317ecb1adcfce15a96eea6ae8ba62f0e3ed25c29d06ecff55c8befe6045b2b");
 });

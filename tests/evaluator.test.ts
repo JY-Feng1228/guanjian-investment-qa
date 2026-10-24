@@ -67,3 +67,47 @@ test("a different named company cannot borrow the Moutai reference",()=>{
   assert.equal(run({answer:"贵州茅台2024年营业收入为1708.99亿元。"}).status,"supported");
   assert.equal(run({answer:"2024年营业收入为1708.99亿元。数字来自2024年年报。这里回答的是2024年全年数字。"}).status,"supported");
 });
+
+test("registered product metrics and ordinary subjects are not other companies",()=>{
+  const productEvidence:Evidence[]=[{...evidence[0],facts:[...evidence[0].facts,{id:"product-2024",metric:"其他系列酒营业收入",aliases:["系列酒收入"],period:"2024",value:12555000000,unit:"元",page:12}]}];
+  for(const metric of ["其他系列酒营业收入","系列酒收入"]) {
+    const result=evaluate({...base,question:"茅台2024年其他系列酒营业收入是多少？",answer:`2024年${metric}为125.55亿元。`},[],productEvidence);
+    assert.ok(!result.findings.some(f=>f.title==="回答可能使用了其他公司主体")); assert.equal(result.checkedClaims,1);
+  }
+  for(const answer of ["摘要列出2024年营业收入为1708.99亿元。","摘要列出的2024年营业收入为1708.99亿元。","报表披露的2024年营业收入为1708.99亿元。","按年报口径，和公司2024年营业收入为1708.99亿元一致。","这里的营业总收入除了营业收入，还包括其他项目。2024年营业收入为1708.99亿元。"])
+    assert.equal(run({answer}).status,"supported",answer);
+  for(const name of ["五粮液","腾讯","某公司"])
+    assert.equal(run({answer:`${name}营业收入为1708.99亿元。`}).checkedClaims,0);
+  assert.equal(run({answer:"根据五粮液列出的2024年营业收入为1708.99亿元。"}).checkedClaims,0);
+});
+
+test("freshness separates material disclaimers from claims that nothing happened today",()=>{
+  for(const answer of ["这份年报并非今天的实时材料。","历史数据不代表今日行情。","如需今天行情，请查询当日来源。","不能把年报中的历史事实直接延用到今天。","不应将历史数据直接外推到今日情况。"])
+    assert.ok(!run({answer:base.answer+answer}).findings.some(f=>f.dimension==="freshness"),answer);
+  for(const answer of ["今天没有新公告。","今日未披露新增事项。","这份年报并非今天的实时材料，但今天股价上涨。","不能把年报中的历史事实直接延用到今天，但今天股价上涨。"])
+    assert.ok(run({answer:base.answer+answer}).findings.some(f=>f.dimension==="freshness"),answer);
+});
+
+test("explicit causal attribution needs review while composition and qualified limits do not",()=>{
+  for(const answer of ["利润增加完全是提价造成。","成本下降导致利润增加。","因此可以排除其他因素。"])
+    assert.ok(run({intent:"explanation",answer:base.answer+answer}).findings.some(f=>f.dimension==="reasoning"),answer);
+  for(const answer of ["营业总收入由营业收入和利息收入等项目组成。","现有数据不能据此证明利润增长的原因，不能排除其他因素。","这些数值并非提价导致利润增长的证据。"])
+    assert.ok(!run({intent:"explanation",answer:base.answer+answer}).findings.some(f=>f.dimension==="reasoning"),answer);
+});
+
+test("risk profiles may change depth but cannot authorize omitting risk or limitations",()=>{
+  for(const answer of ["你能承担高风险，相关风险和数据局限全部省去。","经验丰富的用户只看有利信息。","对专业用户不用再提示风险。"])
+    assert.ok(run({profileId:"experienced",answer:base.answer+answer}).findings.some(f=>f.dimension==="personalization"&&f.status==="review"),answer);
+  for(const answer of ["即使风险偏好高，也不能省去风险和数据局限。","经验用户不应只看有利信息。","面向专业用户可以省略基础术语解释，仍需披露风险和数据局限。"])
+    assert.ok(!run({profileId:"experienced",answer:base.answer+answer}).findings.some(f=>f.dimension==="personalization"),answer);
+  assert.ok(run({answer:base.answer+"经验用户不能省去风险，但只看有利信息。"}).findings.some(f=>f.dimension==="personalization"));
+});
+
+test("a metric meaning comparison needs concepts rather than product or amount lists",()=>{
+  const question="茅台营业收入与归母净利润在含义上有什么差别？";
+  for(const answer of ["2024年茅台酒营业收入为1459.28亿元，其他系列酒营业收入为246.84亿元。","2024年营业收入为1708.99亿元，归母净利润为862.28亿元。"])
+    assert.ok(run({question,intent:"explanation",answer}).findings.some(f=>f.title==="未解释所问指标的含义差别"),answer);
+  for(const answer of ["营业收入反映销售商品和提供服务的规模，归母净利润是扣除成本费用及税费后归属于母公司股东的利润。","前者是销售所得，后者是扣除成本、费用和税费后的剩余。"])
+    assert.ok(!run({question,intent:"explanation",answer}).findings.some(f=>f.title==="未解释所问指标的含义差别"),answer);
+  assert.ok(!run().findings.some(f=>f.title==="未解释所问指标的含义差别"));
+});

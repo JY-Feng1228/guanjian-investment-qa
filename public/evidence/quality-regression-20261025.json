@@ -1,0 +1,483 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-24T22:07:56.633Z",
+  "evaluationAt": "2026-10-25T00:00:00Z",
+  "baseline": {
+    "version": "rules-1.1.1",
+    "metrics": {
+      "total": 12,
+      "completed": 12,
+      "unavailable": 0,
+      "tp": 4,
+      "fp": 3,
+      "fn": 2,
+      "tn": 3,
+      "precision": 0.5714285714285714,
+      "recall": 0.6666666666666666,
+      "agreement": 0.5833333333333334
+    }
+  },
+  "current": {
+    "version": "rules-1.2.0",
+    "metrics": {
+      "total": 12,
+      "completed": 12,
+      "unavailable": 0,
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "tn": 6,
+      "precision": 1,
+      "recall": 1,
+      "agreement": 1
+    }
+  },
+  "cases": [
+    {
+      "id": "H01",
+      "expectedReview": false,
+      "beforeFlag": false,
+      "afterFlag": false,
+      "beforeFindings": [],
+      "afterFindings": []
+    },
+    {
+      "id": "H02",
+      "expectedReview": true,
+      "beforeFlag": true,
+      "afterFlag": true,
+      "beforeFindings": [
+        {
+          "dimension": "number",
+          "status": "contradicted",
+          "severity": "high",
+          "title": "营业收入与原文冲突",
+          "quote": "营业收入约为1741.44亿元",
+          "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+          "evidenceId": "S1",
+          "factId": "revenue-2024",
+          "expected": "170,899,152,276.34 元",
+          "observed": "174,144,000,000 元",
+          "method": "evidence",
+          "id": "f1"
+        }
+      ],
+      "afterFindings": [
+        {
+          "dimension": "number",
+          "status": "contradicted",
+          "severity": "high",
+          "title": "营业收入与原文冲突",
+          "quote": "营业收入约为1741.44亿元",
+          "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+          "evidenceId": "S1",
+          "factId": "revenue-2024",
+          "expected": "170,899,152,276.34 元",
+          "observed": "174,144,000,000 元",
+          "method": "evidence",
+          "id": "f1"
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "expectedReview": false,
+      "beforeFlag": true,
+      "afterFlag": false,
+      "beforeFindings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "回答可能使用了其他公司主体",
+          "quote": "其他系列酒",
+          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+          "method": "rule",
+          "id": "f1"
+        }
+      ],
+      "afterFindings": []
+    },
+    {
+      "id": "H04",
+      "expectedReview": true,
+      "beforeFlag": true,
+      "afterFlag": true,
+      "beforeFindings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "回答可能使用了其他公司主体",
+          "quote": "和公司",
+          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+          "method": "rule",
+          "id": "f1"
+        }
+      ],
+      "afterFindings": [
+        {
+          "dimension": "number",
+          "status": "contradicted",
+          "severity": "high",
+          "title": "归母净利润与原文冲突",
+          "quote": "归属于母公司股东的净利润约为747.34亿元",
+          "detail": "2024年，按回答显示精度核对。原文第 64 页；营业收入与营业总收入分开核验。",
+          "evidenceId": "S1",
+          "factId": "net-profit-2024",
+          "expected": "86,228,146,421.62 元",
+          "observed": "74,734,000,000 元",
+          "method": "evidence",
+          "id": "f1"
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "expectedReview": false,
+      "beforeFlag": true,
+      "afterFlag": false,
+      "beforeFindings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "回答可能使用了其他公司主体",
+          "quote": "这里的营业总收入除了、摘要列出",
+          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+          "method": "rule",
+          "id": "f1"
+        }
+      ],
+      "afterFindings": []
+    },
+    {
+      "id": "H06",
+      "expectedReview": true,
+      "beforeFlag": false,
+      "afterFlag": true,
+      "beforeFindings": [],
+      "afterFindings": [
+        {
+          "dimension": "reasoning",
+          "status": "review",
+          "severity": "medium",
+          "title": "因果解释需要额外证据",
+          "quote": "2024年归母净利润增加完全是产品售价提高造成的；因此可以排除销量、成本及其他因素的影响",
+          "detail": "财务数值核对不能证明原因。请人工检查结论是否超出证据、是否把相关性写成因果。",
+          "method": "rule",
+          "id": "f2"
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "expectedReview": false,
+      "beforeFlag": false,
+      "afterFlag": false,
+      "beforeFindings": [],
+      "afterFindings": []
+    },
+    {
+      "id": "H08",
+      "expectedReview": true,
+      "beforeFlag": true,
+      "afterFlag": true,
+      "beforeFindings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "回答可能使用了其他公司主体",
+          "quote": "其他系列酒",
+          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+          "method": "rule",
+          "id": "f1"
+        }
+      ],
+      "afterFindings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "回答可能使用了其他公司主体",
+          "quote": "摘要还单独列示了",
+          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+          "method": "rule",
+          "id": "f1"
+        },
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "medium",
+          "title": "未解释所问指标的含义差别",
+          "quote": "我是新手，请说明营业收入与归母净利润的含义差别，为什么不能互换使用？",
+          "detail": "问题要求解释收入与净利润的含义差别，当前回答缺少至少一项概念说明；仅列产品收入或两项金额不能替代解释。该规则检查概念覆盖，不裁定解释完整性。",
+          "method": "rule",
+          "id": "f4"
+        }
+      ]
+    },
+    {
+      "id": "H09",
+      "expectedReview": false,
+      "beforeFlag": false,
+      "afterFlag": false,
+      "beforeFindings": [],
+      "afterFindings": []
+    },
+    {
+      "id": "H10",
+      "expectedReview": true,
+      "beforeFlag": false,
+      "afterFlag": true,
+      "beforeFindings": [],
+      "afterFindings": [
+        {
+          "dimension": "personalization",
+          "status": "review",
+          "severity": "high",
+          "title": "画像不能作为省略风险的理由",
+          "quote": "相关风险和数据局限在你的版本中全部省去；经验用户可以只看有利于决策的信息",
+          "detail": "回答主动按用户经验或风险偏好省略风险、数据局限或不利信息，需要复核。画像可以改变解释深度，不能降低事实和风险披露要求。",
+          "method": "rule",
+          "id": "f2"
+        }
+      ]
+    },
+    {
+      "id": "H11",
+      "expectedReview": false,
+      "beforeFlag": true,
+      "afterFlag": false,
+      "beforeFindings": [
+        {
+          "dimension": "freshness",
+          "status": "unverifiable",
+          "severity": "high",
+          "title": "历史年报不能支持当前行情",
+          "quote": "它反映的是2024年度的历史经营情况，披露日期是2025年4月3日，并非今天的实时材料",
+          "detail": "评测时点 2026-10-25；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。",
+          "method": "evidence",
+          "id": "f2"
+        }
+      ],
+      "afterFindings": []
+    },
+    {
+      "id": "H12",
+      "expectedReview": true,
+      "beforeFlag": true,
+      "afterFlag": true,
+      "beforeFindings": [
+        {
+          "dimension": "freshness",
+          "status": "unverifiable",
+          "severity": "high",
+          "title": "历史年报不能支持当前行情",
+          "quote": "可以，今天没有新的公司公告；所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同；虽然这份材料记载的是历史年度，但已有官方出处，判断今天的公告动态可以继续沿用它的结论，不需要再查询带有当前日期的信息",
+          "detail": "评测时点 2026-10-25；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。",
+          "method": "evidence",
+          "id": "f2"
+        }
+      ],
+      "afterFindings": [
+        {
+          "dimension": "freshness",
+          "status": "unverifiable",
+          "severity": "high",
+          "title": "历史年报不能支持当前行情",
+          "quote": "今天没有新的公司公告；所给年报并未记录今天发生的新公告；判断今天的公告动态可以继续沿用它的结论",
+          "detail": "评测时点 2026-10-25；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。",
+          "method": "evidence",
+          "id": "f2"
+        }
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "sample": {
+        "id": "C01",
+        "question": "贵州茅台2024年营业收入是多少？请保留两位小数。",
+        "answer": "贵州茅台2024年营业收入约为1709.00亿元，按全年合并口径、人民币亿元展示。该历史金额不代表未来业绩。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "C01",
+        "promptVersion": "offline-challenge-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "reference": {
+        "needsReview": true,
+        "reason": "原值为1708.9915227634亿元，两位小数应为1708.99；1709.00已超出该显示精度的舍入容差。约字不能为任意误差免责。"
+      },
+      "evaluation": {
+        "id": "b237e04e-0107-4466-9619-ff0294808f51",
+        "sampleId": "C01",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.2.0",
+        "status": "contradicted",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "营业收入与原文冲突",
+            "quote": "营业收入约为1709.00亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "170,900,000,000 元",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 1,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "flag": true,
+      "localizationNote": null
+    },
+    {
+      "sample": {
+        "id": "C02",
+        "question": "贵州茅台2024年营业总收入是多少？",
+        "answer": "谨慎来看，2024年营业收入为1708.99亿元。这里暂把这一金额作为所问营业总收入的规模参考，具体仍以年报为准，也不据此预测股价。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "C02",
+        "promptVersion": "offline-challenge-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "reference": {
+        "needsReview": true,
+        "reason": "1708.99是正确的营业收入数值，但问题问的是营业总收入；谨慎措辞和以年报为准不能纠正指标混用。"
+      },
+      "evaluation": {
+        "id": "f0d8e157-389c-4b36-8950-4e855fd0bb2c",
+        "sampleId": "C02",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.2.0",
+        "status": "review",
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "回答可能使用了其他公司主体",
+            "quote": "这里暂把这一金额作为所问",
+            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+            "method": "rule",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "还有数字未完成核验",
+            "quote": "1708.99亿元",
+            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "flag": true,
+      "localizationNote": "本题虽触发告警，但原因是将普通语句误识别为公司主体，未正确定位指标口径问题；二元TP不能当作正确定位。"
+    },
+    {
+      "sample": {
+        "id": "C03",
+        "question": "贵州茅台2024年全年营业收入是多少？",
+        "answer": "2024年上半年营业收入为1708.99亿元。金额采用合并报表口径，保留两位小数，历史数据不构成收益承诺。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "C03",
+        "promptVersion": "offline-challenge-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "reference": {
+        "needsReview": true,
+        "reason": "1708.99对应2024全年，回答将它放到上半年，并未回答全年问题。现有证据表未登记半年值，不能因此声称已知正确半年值。"
+      },
+      "evaluation": {
+        "id": "2e079717-220b-4ba5-a609-3c601d97b41b",
+        "sampleId": "C03",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.2.0",
+        "status": "contradicted",
+        "findings": [
+          {
+            "dimension": "period",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "该期间缺少对应证据",
+            "quote": "营业收入为1708.99亿元",
+            "detail": "识别期间 2024-H1；现有证据没有可匹配的同口径数值。",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "period",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "回答期间偏离问题",
+            "quote": "贵州茅台2024年全年营业收入是多少？",
+            "detail": "问题期间为 2024，已识别断言均为其他期间；年度与季度不可混用。",
+            "method": "rule",
+            "id": "f2"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "flag": true,
+      "localizationNote": null
+    }
+  ],
+  "limits": [
+    "初测原始结果与模型返回均未改写；本文件只记录修复后的离线规则回归，没有发起模型调用。",
+    "这12题已被用于定位和修复规则，因此不再是新规则的独立留出集；修复后结果不能作为泛化准确率。",
+    "参考标签仍为AI预标注，用户转发的外部AI意见不等于用户或领域专家逐题人工确认。",
+    "初测H04与H08虽在二元计分中记为TP，但当时主要依靠错误的主体告警，不能据此说正确定位问题。",
+    "三条挑战题由同一助手在初测之后构造，仅检查小数精度、谨慎措辞下的口径混用与报告期错置，不构成独立质量评测。",
+    "所有案例仍集中于一家公司的一份年报；规则依赖有限句式和指标登记，未验证跨公司、跨行业或真实用户分布。"
+  ]
+}

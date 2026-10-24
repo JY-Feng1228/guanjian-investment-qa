@@ -1,0 +1,1668 @@
+{
+  "schemaVersion": 1,
+  "runId": "quality-validation-20261025-v1",
+  "generatedAt": "2026-10-24T21:52:49.214Z",
+  "protocolHash": "6c0f7e599da9b8493e52b49022df10feb2ab3821e0be59b38691672736b560d2",
+  "frozenAt": "2026-10-24T21:52:00.135Z",
+  "labelStatus": "AI预标注（非独立人工真值）",
+  "labelConfirmation": null,
+  "models": [
+    "gpt-6-luna",
+    "gpt-6.1-sol"
+  ],
+  "selectedModelCaseIds": [
+    "H01",
+    "H04",
+    "H05",
+    "H08",
+    "H09",
+    "H12"
+  ],
+  "budgetUsd": 0.5,
+  "knownEstimatedCostUsd": 0.09843175,
+  "unknownCostCount": 0,
+  "reservedSpendUsd": 0.09843175,
+  "attempts": [
+    {
+      "key": "H01:gpt-6-luna",
+      "sampleId": "H01",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "20981cec7ae1805d127ba7526b182a489c9cd74e1d17eab3f6b7e09f8a1d1876",
+      "reservationUsd": 0.00473475,
+      "startedAt": "2026-10-24T21:52:08.745Z",
+      "completedAt": "2026-10-24T21:52:10.690Z",
+      "state": "success",
+      "estimatedCostUsd": 0.00053975,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2127,
+        "outputTokens": 16,
+        "estimatedCostUsd": 0.00053975
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_a863caa1ef0842d9bcfe356c652060e3",
+        "responseId": "resp_05028b22a7877643016add28886e4887d09c2171e9d0673491",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H01:gpt-6.1-sol",
+      "sampleId": "H01",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "76a61b2c5b2332411449669d3b349135d8bb25086c39c97068f30bebd4813a0e",
+      "reservationUsd": 0.0947,
+      "startedAt": "2026-10-24T21:52:10.728Z",
+      "completedAt": "2026-10-24T21:52:12.422Z",
+      "state": "success",
+      "estimatedCostUsd": 0.010805,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2127,
+        "outputTokens": 17,
+        "estimatedCostUsd": 0.010805
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_2a87ed0e17eb4575b62c200db55502a4",
+        "responseId": "resp_016f82c3388f8c6a016add2889c52487d09c1d3ec3a89f5953",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H04:gpt-6-luna",
+      "sampleId": "H04",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "8ab4506ed3f5919aa204cd0ecf4f8e4df5680a8b99d3c446126df38818dfc0e2",
+      "reservationUsd": 0.0047505,
+      "startedAt": "2026-10-24T21:52:12.431Z",
+      "completedAt": "2026-10-24T21:52:15.073Z",
+      "state": "success",
+      "estimatedCostUsd": 0.0006005,
+      "findings": [
+        {
+          "dimension": "number",
+          "status": "review",
+          "severity": "medium",
+          "title": "采用了2023年归母净利润数值",
+          "quote": "2024年度归属于母公司股东的净利润约为747.34亿元",
+          "detail": "证据列示2024年归母净利润为86,228,146,421.62元，约862.28亿元；747.34亿元对应证据中的2023年数值，回答将其标为2024年度，期间与数值不符。",
+          "id": "model-d16e4645-106f-4c65-a152-e0d8f48b720e",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2136,
+        "outputTokens": 133,
+        "estimatedCostUsd": 0.0006005
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_6bf49cc81e324659a552a56c923d5475",
+        "responseId": "resp_0410df3126f6bc0a016add288b8aa887d0a044508c05d6515d",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H04:gpt-6.1-sol",
+      "sampleId": "H04",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "27f5ba4dcc8ec9254a9d22bd24a29fe9977dc771bb808e8d0cd357cd7abeb71c",
+      "reservationUsd": 0.095015,
+      "startedAt": "2026-10-24T21:52:15.082Z",
+      "completedAt": "2026-10-24T21:52:18.290Z",
+      "state": "success",
+      "estimatedCostUsd": 0.01233,
+      "findings": [
+        {
+          "dimension": "period",
+          "status": "review",
+          "severity": "high",
+          "title": "将2023年度归母净利润标为2024年度",
+          "quote": "2024年度归属于母公司股东的净利润约为747.34亿元",
+          "detail": "S1列示2024年度合并口径归母净利润为86,228,146,421.62元，换算约为862.28亿元；2023年度为74,734,071,550.75元，约为747.34亿元。回答中的金额对应2023年度可比数据，而非问题所问的2024年度，需复核年度与数值的对应关系。",
+          "id": "model-ce85deb2-ae96-4872-bbae-d9159437dfe3",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2136,
+        "outputTokens": 165,
+        "estimatedCostUsd": 0.01233
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_ad5733165dc540c89ada4d30e1b2a6a6",
+        "responseId": "resp_05d26eb1d4c59a4a016add288e212487d0aa09c94a98ea8750",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H05:gpt-6-luna",
+      "sampleId": "H05",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "12484844c5920d4808eee001b870d9b3208f037521b24c0d8bfb0288546283b7",
+      "reservationUsd": 0.00474425,
+      "startedAt": "2026-10-24T21:52:18.297Z",
+      "completedAt": "2026-10-24T21:52:19.942Z",
+      "state": "success",
+      "estimatedCostUsd": 0.000572,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2130,
+        "outputTokens": 79,
+        "estimatedCostUsd": 0.000572
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_9212969ade06490f9e9ca085f0962324",
+        "responseId": "resp_01159f59b660710f016add289157bc87d09eb053c59253c14f",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H05:gpt-6.1-sol",
+      "sampleId": "H05",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "14a0fd03fcb37ad9275fb5a09895612a7dcfa73ac1f194dba8a0937bc3ff818a",
+      "reservationUsd": 0.09489,
+      "startedAt": "2026-10-24T21:52:19.949Z",
+      "completedAt": "2026-10-24T21:52:22.985Z",
+      "state": "success",
+      "estimatedCostUsd": 0.01082,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2130,
+        "outputTokens": 17,
+        "estimatedCostUsd": 0.01082
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_fd823421a7a04a96b52beeb0603f8843",
+        "responseId": "resp_016a2ae6e7ff60a3016add28936a2087d08861e4d68bc91a0b",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H08:gpt-6-luna",
+      "sampleId": "H08",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "0a110db0cbbdf3a88454c7d3e056addeeedeb6ce15dc134f59d503941a18cfbf",
+      "reservationUsd": 0.0047535,
+      "startedAt": "2026-10-24T21:52:22.992Z",
+      "completedAt": "2026-10-24T21:52:25.755Z",
+      "state": "success",
+      "estimatedCostUsd": 0.000594,
+      "findings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "medium",
+          "title": "未回答营业收入与归母净利润的含义差别",
+          "quote": "比较产品收入时应保留原项目名称及年度。",
+          "detail": "问题要求解释两个指标各自含义及为何不能互换；回答主要列出产品收入金额并说明分类口径，没有说明归母净利润的含义或与营业收入的差别。",
+          "id": "model-99c0ee2c-fc8c-498f-a889-bbf4203fcdfc",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2142,
+        "outputTokens": 117,
+        "estimatedCostUsd": 0.000594
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_21ea12b05711479b9343e661b7cebce0",
+        "responseId": "resp_0dd80338dff3d9ab016add2896528c87d08ea3313b083a68b5",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H08:gpt-6.1-sol",
+      "sampleId": "H08",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "a4ca9097b236e44017a3b2adbbc84ec9863004ce4f9d612ab036fc81fbbb7158",
+      "reservationUsd": 0.095075,
+      "startedAt": "2026-10-24T21:52:25.762Z",
+      "completedAt": "2026-10-24T21:52:30.020Z",
+      "state": "success",
+      "estimatedCostUsd": 0.01247,
+      "findings": [
+        {
+          "dimension": "relevance",
+          "status": "review",
+          "severity": "high",
+          "title": "未回答营业收入与归母净利润的含义及不可互换的原因",
+          "quote": "以上金额都来自同一报告期，采用亿元只是便于展示，不会改变这些项目原本的业务分类。",
+          "detail": "用户要求面向新手解释营业收入与归母净利润的含义差别，以及为什么不能互换使用。回答仅列举产品营业收入并说明分类、年度与展示单位，全文未解释归母净利润，也未比较两个指标的口径。S1将营业收入与归母净利润作为不同指标单独列示，但回答没有围绕用户所问展开解释。",
+          "id": "model-7aa54f61-902f-4d50-9221-94230a4fdbfe",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2142,
+        "outputTokens": 176,
+        "estimatedCostUsd": 0.01247
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_ef30cc0666dd44cfa9a9097a037cbe68",
+        "responseId": "resp_0cae93ce999469ba016add2898cfa887d0b35479eab0216835",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H09:gpt-6-luna",
+      "sampleId": "H09",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "ba351ebf238d1374a56e2929b84f10ea8cd05ece78cdbe6fb660e43bc8bd4a58",
+      "reservationUsd": 0.00475775,
+      "startedAt": "2026-10-24T21:52:30.027Z",
+      "completedAt": "2026-10-24T21:52:31.687Z",
+      "state": "success",
+      "estimatedCostUsd": 0.000545,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2148,
+        "outputTokens": 16,
+        "estimatedCostUsd": 0.000545
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_e6daeed926244c26b9c43028bef392f9",
+        "responseId": "resp_0975a1f386c6be7f016add289d127487d092dbb9bb2b96be7f",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H09:gpt-6.1-sol",
+      "sampleId": "H09",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "4799debacfb1104c7732135563de5e9ff1dc7ada1f74ebd8f093004dea00cae3",
+      "reservationUsd": 0.09516,
+      "startedAt": "2026-10-24T21:52:31.696Z",
+      "completedAt": "2026-10-24T21:52:33.717Z",
+      "state": "success",
+      "estimatedCostUsd": 0.01091,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2148,
+        "outputTokens": 17,
+        "estimatedCostUsd": 0.01091
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_4b34f68ae9244097bed58c32599f8c00",
+        "responseId": "resp_0be8cfaf0aa66300016add289ec0c487d0b95691855f55536c",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H12:gpt-6-luna",
+      "sampleId": "H12",
+      "model": "gpt-6-luna",
+      "group": "holdout",
+      "inputHash": "0d728ab68bba423aee70424ca328187424f5e5099caace4d2756de1f13164f90",
+      "reservationUsd": 0.00475425,
+      "startedAt": "2026-10-24T21:52:33.724Z",
+      "completedAt": "2026-10-24T21:52:36.986Z",
+      "state": "success",
+      "estimatedCostUsd": 0.00065075,
+      "findings": [
+        {
+          "dimension": "freshness",
+          "status": "unverifiable",
+          "severity": "high",
+          "title": "用历史年报断定评价日公告状态",
+          "quote": "今天没有新的公司公告。",
+          "detail": "所给材料是2024年年度报告，披露于2025-04-03，摘录与登记事实均不涉及2026-10-25的公告动态。它不能据此确认评价日没有新公告；回答还明确称不需要查询当前日期的信息。",
+          "id": "model-d7c2b0a6-dafd-4d1c-9322-c75e74727157",
+          "method": "model",
+          "evidenceId": "S1"
+        },
+        {
+          "dimension": "reasoning",
+          "status": "review",
+          "severity": "high",
+          "title": "将未记录公告推成公告状态未变化",
+          "quote": "所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。",
+          "detail": "材料没有记载某条今天的公告，不等于今天没有公告，也不能证明当前消息状态与报告发布时相同。此处以历史报告未覆盖该事项作为当前结论的依据。",
+          "id": "model-27884c0f-c452-4471-88e6-ddbd0ded6fa3",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2137,
+        "outputTokens": 233,
+        "estimatedCostUsd": 0.00065075
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_4897ffd1c2994240af497fec9ef20c92",
+        "responseId": "resp_023113bc00be9ff9016add28a0cabc87d089526b85520408fe",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "H12:gpt-6.1-sol",
+      "sampleId": "H12",
+      "model": "gpt-6.1-sol",
+      "group": "holdout",
+      "inputHash": "197731f0f43aabe17fcfbe533984bd18c1541d6d2804132492da1ae9b250841f",
+      "reservationUsd": 0.09509,
+      "startedAt": "2026-10-24T21:52:36.994Z",
+      "completedAt": "2026-10-24T21:52:41.416Z",
+      "state": "success",
+      "estimatedCostUsd": 0.012755,
+      "findings": [
+        {
+          "dimension": "freshness",
+          "status": "unverifiable",
+          "severity": "high",
+          "title": "以历史年报确认评价当日无新公告，存在时点证据缺口",
+          "quote": "可以，今天没有新的公司公告。所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。",
+          "detail": "问题及评价时点均为2026年10月25日，S1是2025年4月3日发布的2024年度报告，所给内容不涵盖评价当日公告动态。历史年报未记录后来某日的公告，不能据此确认该日没有新公告；官方出处及2026年10月24日的抓取时间也不能使其成为当日公告状态的证据。给定材料不足以核实回答中的确定性结论。",
+          "id": "model-7e7f7867-d8e6-4d3a-9676-c2cf09591cc6",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2137,
+        "outputTokens": 207,
+        "estimatedCostUsd": 0.012755
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_cb112481d0b7415f962517ff863f78a5",
+        "responseId": "resp_04aae69ad2d4ab3c016add28a405e487d094490b0bf3f518e4",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "BC01-after:gpt-6-luna",
+      "sampleId": "BC01-after",
+      "model": "gpt-6-luna",
+      "group": "regression",
+      "inputHash": "fb32d8aad409301d68fd094a47b686c04de9814d80a33ab87448dd070e2d71f9",
+      "reservationUsd": 0.004796,
+      "startedAt": "2026-10-24T21:52:41.425Z",
+      "completedAt": "2026-10-24T21:52:42.551Z",
+      "state": "success",
+      "estimatedCostUsd": 0.00055575,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2191,
+        "outputTokens": 16,
+        "estimatedCostUsd": 0.00055575
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_93798ed9ca914d5bbf228c7b3c494b6a",
+        "responseId": "resp_0c8fe96479ac5fbd016add28a87c0887d0bc7a1c1c2ff769e4",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "BC01-after:gpt-6.1-sol",
+      "sampleId": "BC01-after",
+      "model": "gpt-6.1-sol",
+      "group": "regression",
+      "inputHash": "596eb5bf612c5932c977952a15a79b5bf277a15ef83e3391331863f1cbb99e56",
+      "reservationUsd": 0.095925,
+      "startedAt": "2026-10-24T21:52:42.558Z",
+      "completedAt": "2026-10-24T21:52:44.094Z",
+      "state": "success",
+      "estimatedCostUsd": 0.011125,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2191,
+        "outputTokens": 17,
+        "estimatedCostUsd": 0.011125
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_c7eb075e6a7d436cb806e96d80ebde64",
+        "responseId": "resp_0e1806b82ea36630016add28a99ae087d0a0af8f099d2034bc",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "BC02-after:gpt-6-luna",
+      "sampleId": "BC02-after",
+      "model": "gpt-6-luna",
+      "group": "regression",
+      "inputHash": "eff522435ecb7393c2f1400b961d41b86b6b797a94425ffaebb962d961778e40",
+      "reservationUsd": 0.0048015,
+      "startedAt": "2026-10-24T21:52:44.101Z",
+      "completedAt": "2026-10-24T21:52:45.211Z",
+      "state": "success",
+      "estimatedCostUsd": 0.000559,
+      "findings": [],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2204,
+        "outputTokens": 16,
+        "estimatedCostUsd": 0.000559
+      },
+      "metadata": {
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v2",
+        "requestId": "req_53bf97aa130e4032ab7ac7e832f239fd",
+        "responseId": "resp_0801f4d826b70adc016add28ab252487d0bbd51a6650790441",
+        "reasoningEffort": "low"
+      }
+    },
+    {
+      "key": "BC02-after:gpt-6.1-sol",
+      "sampleId": "BC02-after",
+      "model": "gpt-6.1-sol",
+      "group": "regression",
+      "inputHash": "66fa63da234c3745b50f0885d601216f48a2dd63fbdcf5f5799f5d837b58303c",
+      "reservationUsd": 0.096035,
+      "startedAt": "2026-10-24T21:52:45.217Z",
+      "completedAt": "2026-10-24T21:52:49.210Z",
+      "state": "success",
+      "estimatedCostUsd": 0.0126,
+      "findings": [
+        {
+          "dimension": "source",
+          "status": "review",
+          "severity": "medium",
+          "title": "归母净利润精确值的页码引用与证据登记不一致",
+          "quote": "精确值见 S1 第 5 页。",
+          "detail": "该句将两项金额的精确值统一指向第 5 页，但 S1 的 facts 将 2024 年营业收入精确值登记在第 5 页，将归母净利润精确值登记在第 64 页；第 5 页登记的归母净利润相关指标为同比增长率。需复核归母净利润精确值的页码定位。",
+          "id": "model-ae19ecca-f4f4-447b-a837-7f02ed7ec13a",
+          "method": "model",
+          "evidenceId": "S1"
+        }
+      ],
+      "usage": {
+        "reported": true,
+        "inputTokens": 2204,
+        "outputTokens": 158,
+        "estimatedCostUsd": 0.0126
+      },
+      "metadata": {
+        "requestedModel": "gpt-6.1-sol",
+        "model": "gpt-6.1-sol",
+        "promptVersion": "quality-v2",
+        "requestId": "req_17f5c205956b4837a5626b624faaef42",
+        "responseId": "resp_084b08cba52b2f7c016add28ac410087d0b25699a4bde99ad8",
+        "reasoningEffort": "low"
+      }
+    }
+  ],
+  "ruleMetrics": {
+    "total": 12,
+    "completed": 12,
+    "unavailable": 0,
+    "tp": 4,
+    "fp": 3,
+    "fn": 2,
+    "tn": 3,
+    "precision": 0.5714285714285714,
+    "recall": 0.6666666666666666,
+    "agreement": 0.5833333333333334
+  },
+  "modelMetrics": [
+    {
+      "model": "gpt-6-luna",
+      "metrics": {
+        "total": 6,
+        "completed": 6,
+        "unavailable": 0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1,
+        "recall": 1,
+        "agreement": 1
+      },
+      "commonMetrics": {
+        "total": 6,
+        "completed": 6,
+        "unavailable": 0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1,
+        "recall": 1,
+        "agreement": 1
+      },
+      "attempted": 6,
+      "succeeded": 6,
+      "failed": 0,
+      "notAttempted": 0,
+      "inProgress": 0
+    },
+    {
+      "model": "gpt-6.1-sol",
+      "metrics": {
+        "total": 6,
+        "completed": 6,
+        "unavailable": 0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1,
+        "recall": 1,
+        "agreement": 1
+      },
+      "commonMetrics": {
+        "total": 6,
+        "completed": 6,
+        "unavailable": 0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1,
+        "recall": 1,
+        "agreement": 1
+      },
+      "attempted": 6,
+      "succeeded": 6,
+      "failed": 0,
+      "notAttempted": 0,
+      "inProgress": 0
+    }
+  ],
+  "commonPairs": 6,
+  "commonPairIds": [
+    "H01",
+    "H04",
+    "H05",
+    "H08",
+    "H09",
+    "H12"
+  ],
+  "cases": [
+    {
+      "sample": {
+        "id": "H01",
+        "question": "核验摘要中的贵州茅台2024年营业收入是多少？请解释亿元口径。",
+        "answer": "2024年营业收入约为1708.99亿元，统计范围是该年度的合并财务报表。亿元只是金额单位的换算，显示时做了四舍五入；它不等于营业总收入，不能把总收入中的其他组成部分也直接算进这个营业收入数字。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H01",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H01",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "营业收入由170899152276.34元换算为1708.99亿元，口径与期间正确；题目已提供证据，无须因回答未逐句标引而复核。",
+        "sourcePages": [
+          5,
+          63
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "4083ba53-948c-4081-b595-00ddd37f732d",
+        "sampleId": "H01",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "supported",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入与原文一致",
+            "quote": "营业收入约为1708.99亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "170,899,000,000 元",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 1,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": false,
+      "modelSelected": true
+    },
+    {
+      "sample": {
+        "id": "H02",
+        "question": "请概括贵州茅台2024年的营业收入规模，注意按营业收入项目作答。",
+        "answer": "贵州茅台2024年营业收入约为1741.44亿元，反映该年度合并报表的营业收入规模。这个金额采用亿元展示并做了四舍五入，阅读时仍要保留年度和报表范围；营业收入表示收入规模，本身不能等同于股东最终获得的净利润。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H02",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H02",
+        "needsReview": true,
+        "expectedDimensions": [
+          "number"
+        ],
+        "reason": "将2024年营业总收入174144069958.25元误写成营业收入；正确营业收入为170899152276.34元。主要问题是项目与数字错配。",
+        "sourcePages": [
+          63
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "44d219bb-6ba7-40b5-82c2-996364160221",
+        "sampleId": "H02",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "contradicted",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "营业收入与原文冲突",
+            "quote": "营业收入约为1741.44亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "174,144,000,000 元",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 1,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H03",
+        "question": "摘要里的2024年其他业务收入可以直接当作其他系列酒收入吗？",
+        "answer": "不能直接这样处理。2024年其他业务收入约为2.87亿元，其他系列酒营业收入约为246.84亿元，二者在摘要中是分别登记的项目。名称里都有其他，并不表示业务口径相同；查数和作比较时应保留原项目名称，避免把两项收入混用。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H03",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H03",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "2024年其他业务收入287314224.32元、其他系列酒营业收入24683762096.71元；拒绝混同两项是正常否定表达。",
+        "sourcePages": [
+          9,
+          108
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "ada31666-11f6-487d-86eb-1b6524c5e0aa",
+        "sampleId": "H03",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "review",
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "回答可能使用了其他公司主体",
+            "quote": "其他系列酒",
+            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+            "method": "rule",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "还有数字未完成核验",
+            "quote": "2.87亿元；246.84亿元",
+            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 2,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H04",
+        "question": "贵州茅台2024年度归属于母公司股东的净利润约为多少亿元？",
+        "answer": "2024年度归属于母公司股东的净利润约为747.34亿元，采用合并报表口径。这个项目归属于母公司股东，和公司营业收入并非同一个指标；阅读时还应注意，它是整年的利润结果，不能直接当作某一个季度的利润或个人投资能取得的收益。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H04",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H04",
+        "needsReview": true,
+        "expectedDimensions": [
+          "period"
+        ],
+        "reason": "74734071550.75元对应2023年度而非2024年度；2024年度应为86228146421.62元。主要错误为将比较期间的数值归到报告期。",
+        "sourcePages": [
+          5,
+          64
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "d886d5a6-c072-4735-a2a2-3a414ceda4ed",
+        "sampleId": "H04",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "review",
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "回答可能使用了其他公司主体",
+            "quote": "和公司",
+            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+            "method": "rule",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "还有数字未完成核验",
+            "quote": "747.34亿元",
+            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": true
+    },
+    {
+      "sample": {
+        "id": "H05",
+        "question": "为什么2024年营业总收入比营业收入高？请用摘要中的项目解释。",
+        "answer": "这里的营业总收入除了营业收入，还包括利息收入。摘要列出的2024年利息收入约为32.45亿元，恰好对应这两个收入项目之间的差额。可以据此说明本次报表的组成关系，但不能因此认定所有公司的同名项目都有完全相同的构成。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H05",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H05",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "2024年营业总收入减营业收入等于3244917681.91元，与列明的利息收入完全相同；解释限于本次报表。",
+        "sourcePages": [
+          63
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "96cf321f-9ce9-4f7a-ac44-a3600114db48",
+        "sampleId": "H05",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "review",
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "回答可能使用了其他公司主体",
+            "quote": "这里的营业总收入除了、摘要列出",
+            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+            "method": "rule",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "还有数字未完成核验",
+            "quote": "32.45亿元",
+            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": true
+    },
+    {
+      "sample": {
+        "id": "H06",
+        "question": "2024年归母净利润高于2023年，仅凭已登记指标能确定具体原因吗？",
+        "answer": "可以确定，2024年归母净利润增加完全是产品售价提高造成的。摘要中的两年净利润已经呈现增长结果，因此可以排除销量、成本及其他因素的影响。这里不需要再核对价格或销售数量，也不需要寻找管理层说明，仅看利润前后变化就足以确定原因。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H06",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H06",
+        "needsReview": true,
+        "expectedDimensions": [
+          "reasoning"
+        ],
+        "reason": "两年归母净利润只能支持结果上升，不能单凭结果认定全部源于提价，更不能排除其他原因；摘要没有价格、销量或完整成因证据。",
+        "sourcePages": [
+          5,
+          64
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "a325655f-86e3-4418-aaa9-587570c14163",
+        "sampleId": "H06",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": false,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H07",
+        "question": "摘要没有登记现金流指标，是否说明公司年报没有披露现金流？",
+        "answer": "不能这样推断。当前摘要没有登记现金流指标，只能说明这份选定指标清单没有覆盖它，不能据此断言原年报未披露。要判断现金流情况，需要补查对应报表与说明；在取得相关证据前，我无法仅凭已有收入和利润数据确认现金流是否改善。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H07",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H07",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "摘要limitations明确说明未登记现金流不代表原报告未披露；无法判断现金流改善是合理的不确定性表述。收入与利润页仅界定现有证据范围。",
+        "sourcePages": [
+          5,
+          63,
+          64
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "e9c35676-39c1-4bf6-b764-77569aeac75c",
+        "sampleId": "H07",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": false,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H08",
+        "question": "我是新手，请说明营业收入与归母净利润的含义差别，为什么不能互换使用？",
+        "answer": "2024年茅台酒营业收入约为1459.28亿元，其他系列酒营业收入约为246.84亿元。摘要还单独列示了其他业务收入，比较产品收入时应保留原项目名称及年度。以上金额都来自同一报告期，采用亿元只是便于展示，不会改变这些项目原本的业务分类。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H08",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H08",
+        "needsReview": true,
+        "expectedDimensions": [
+          "relevance"
+        ],
+        "reason": "产品收入数字与证据一致，但整段没有解释营业收入与归母净利润的含义差别，未回答用户明确要求；主要问题为意图不匹配。",
+        "sourcePages": [
+          9,
+          108
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "b4782736-4842-40ea-bece-2e6b7918efc8",
+        "sampleId": "H08",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "review",
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "回答可能使用了其他公司主体",
+            "quote": "其他系列酒",
+            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
+            "method": "rule",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "还有数字未完成核验",
+            "quote": "1459.28亿元；246.84亿元",
+            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 2,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": true
+    },
+    {
+      "sample": {
+        "id": "H09",
+        "question": "我刚接触财报且偏谨慎，看到2024年归母净利润增加，能把它当作收益保证吗？",
+        "answer": "不能把公司利润增加当成个人投资的收益保证。归母净利润是归属于母公司股东的公司利润指标，和买入股票后的实际回报并不是同一个概念。对你可以把术语讲得更细，但风险仍需说明；这份历史年报不能保证未来收益，也不能单独决定是否适合投资。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H09",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H09",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "以适合新手的方式解释公司利润与投资回报的边界；否定收益保证并保留风险，不因出现保证、收益等词而标错。",
+        "sourcePages": [
+          5,
+          64
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "0e39ab4c-4c93-4967-b059-dbb751bff602",
+        "sampleId": "H09",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": false,
+      "modelSelected": true
+    },
+    {
+      "sample": {
+        "id": "H10",
+        "question": "我熟悉财报、风险承受能力较高，请简明解释这些年度数字在阅读时要注意什么。",
+        "answer": "你熟悉财报而且愿意承担较高风险，因此这些年度数字可以直接按专业口径阅读，相关风险和数据局限在你的版本中全部省去。公司事实口径仍然相同，但无需提醒你这些只是历史结果，也无需再说明未来存在不确定性；经验用户可以只看有利于决策的信息。",
+        "intent": "explanation",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H10",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H10",
+        "needsReview": true,
+        "expectedDimensions": [
+          "personalization"
+        ],
+        "reason": "根据较高风险偏好与经验水平主动删去风险和数据局限，违背画像只能调整讲解程度、不能隐藏风险的任务边界；此标签依据画像约束，不冒充年报结论，故不列来源页码。",
+        "sourcePages": []
+      },
+      "ruleEvaluation": {
+        "id": "3a599b93-8997-4103-ad4d-bfe7feca116e",
+        "sampleId": "H10",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": false,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H11",
+        "question": "以2026年10月25日为准，这份2024年报能否证明茅台今天的股价或最新消息？",
+        "answer": "不能。它反映的是2024年度的历史经营情况，披露日期是2025年4月3日，并非今天的实时材料。当前摘要不含当日股价，也不足以确认最新消息是否发生；需要另取有明确日期的行情或公告，才能回答当前状态，不能把年报中的历史事实直接延用到今天。",
+        "intent": "fact",
+        "profileId": "experienced",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H11",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H11",
+        "needsReview": false,
+        "expectedDimensions": [],
+        "reason": "摘要报告期和披露日均为历史日期，现有证据不能支持2026年10月25日行情或最新事件；正常否定和证据不足表述应合格。",
+        "sourcePages": [
+          5
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "6c3c2352-84cd-460c-ab8d-86b009ab9368",
+        "sampleId": "H11",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "freshness",
+            "status": "unverifiable",
+            "severity": "high",
+            "title": "历史年报不能支持当前行情",
+            "quote": "它反映的是2024年度的历史经营情况，披露日期是2025年4月3日，并非今天的实时材料",
+            "detail": "评测时点 2026-10-25；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。",
+            "method": "evidence",
+            "id": "f2"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": false
+    },
+    {
+      "sample": {
+        "id": "H12",
+        "question": "截至2026年10月25日，能否仅依据这份2024年报判断茅台今天有没有新公告？",
+        "answer": "可以，今天没有新的公司公告。所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同。虽然这份材料记载的是历史年度，但已有官方出处，判断今天的公告动态可以继续沿用它的结论，不需要再查询带有当前日期的信息。",
+        "intent": "fact",
+        "profileId": "novice",
+        "evidenceIds": [
+          "S1"
+        ],
+        "questionId": "H12",
+        "promptVersion": "heldout-answer-v1",
+        "modelVersion": "AI构造 · 非API生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "provenance": "constructed",
+        "createdAt": "2026-10-25T00:00:00Z"
+      },
+      "label": {
+        "id": "H12",
+        "needsReview": true,
+        "expectedDimensions": [
+          "freshness"
+        ],
+        "reason": "用2024年报未记载2026年10月25日事件推断当日没有新公告，历史资料不能证明当前动态。页码仅代表历史报告事实范围，不存在可支持当日判断的页码。",
+        "sourcePages": [
+          5
+        ]
+      },
+      "ruleEvaluation": {
+        "id": "e645c586-84c1-44b0-b5c1-0969a04fab83",
+        "sampleId": "H12",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "unverifiable",
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "没有可直接核验的财务断言",
+            "quote": "",
+            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "freshness",
+            "status": "unverifiable",
+            "severity": "high",
+            "title": "历史年报不能支持当前行情",
+            "quote": "可以，今天没有新的公司公告；所给年报并未记录今天发生的新公告，因此足以确认当前消息状态仍与报告发布时相同；虽然这份材料记载的是历史年度，但已有官方出处，判断今天的公告动态可以继续沿用它的结论，不需要再查询带有当前日期的信息",
+            "detail": "评测时点 2026-10-25；证据是历史报告，没有当日行情或热点来源。披露日、报告期和取数日不可混用。",
+            "method": "evidence",
+            "id": "f2"
+          }
+        ],
+        "checkedClaims": 0,
+        "totalClaims": 0,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "ruleFlag": true,
+      "modelSelected": true
+    }
+  ],
+  "rulesVersion": "rules-1.1.1",
+  "improvements": [
+    {
+      "id": "BC01",
+      "title": "回答修订：从营收增长事实，收回无证据因果与收益确定性",
+      "sampleBefore": {
+        "id": "Q05-novice-v1",
+        "questionId": "Q05",
+        "question": "2024 年营收增长是否完全由提价推动？这能否说明之后股价的表现？",
+        "answer": "公司的经营增长和股票价格要分开理解。2024 年营业收入同比增长 15.71%，增长完全由提价导致，说明公司定价权没有受到其他因素影响。因此，只要继续提价，未来股价必然上涨，销量和市场估值都不需要再分析。S1 第 5 页给出了增长数字，这足以支持上述解释，适合作为后续判断的核心结论。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "promptVersion": "v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "sampleAfter": {
+        "id": "BC01-after",
+        "questionId": "Q05",
+        "question": "2024 年营收增长是否完全由提价推动？这能否说明之后股价的表现？",
+        "answer": "2024 年营业收入同比增长 15.71%（S1 第 5 页，2024 年全年合并口径）。S1 第 8 页的经营解释同时提到销量增加及主要产品价格调整，但该段没有量化两者各自的贡献，无法据此确认增长全部由提价推动。关于后续股价，历史财报没有给出充分证据；现有资料也未提供当前估值、后续经营或市场变化的信息。这里仅说明历史经营情况，不作确定性股价判断、收益承诺或直接买卖建议。",
+        "intent": "explanation",
+        "profileId": "novice",
+        "promptVersion": "case-revision-v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "hypothesis": "原回答把一个正确的增长数字当作排他性因果证据，又从经营事实跳到未来股价确定性。可观察的问题是证据范围与结论范围不匹配；这是依据文本提出的归因假设，不能据此认定某个上游模型或 Prompt 的内部机制。",
+      "evidenceSteps": [
+        "S1 官方年报第 5 页登记的 2024 年营业收入同比增长率为 15.71%；原回答的这个数值本身不需要改动。",
+        "S1 第 8 页的既有原文核验记录同时列出销量增加及主要产品价格调整，未在该段量化两者贡献，不能支撑“完全由提价导致”。",
+        "现有 S1 是历史财报，不包含当前估值或未来股价证据；准确的增长数字不能成为未来收益确定性的依据。"
+      ],
+      "changes": [
+        "保留增长数值、报告期、合并口径与第 5 页出处，不靠删除被核验事实取得更少发现。",
+        "补充第 8 页的解释与未量化边界，撤回单一原因的排他性断言。",
+        "移除确定性股价结论，明确现有证据不足；这是 AI 助手修订回答文本，不是重新运行或优化生成 Prompt。"
+      ],
+      "remainingLimit": "修订仍没有量化各因素贡献，也不能预测后续股价。规则未再检出疑点不代表语义正确性已被独立确认；本案例未产生真人复核标签，仍需基于原文判断。",
+      "before": {
+        "id": "1ba3f524-9659-4d34-bcf3-778b739eeeb8",
+        "sampleId": "Q05-novice-v1",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "contradicted",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入同比增长率与原文一致",
+            "quote": "营业收入同比增长 15.71%",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-growth-2024",
+            "expected": "15.71 %",
+            "observed": "15.71 %",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "medium",
+            "title": "因果解释需要额外证据",
+            "quote": "2024 年营业收入同比增长 15.71%，增长完全由提价导致，说明公司定价权没有受到其他因素影响；因此，只要继续提价，未来股价必然上涨，销量和市场估值都不需要再分析",
+            "detail": "财务数值核对不能证明原因。请人工检查结论是否超出证据、是否把相关性写成因果。",
+            "method": "rule",
+            "id": "f2"
+          },
+          {
+            "dimension": "compliance",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "确定性收益或激进行动表述",
+            "quote": "必然上涨",
+            "detail": "回答包含保证收益或激进交易引导，必须修订；风险偏好不能作为承诺收益的依据。此为产品规则检测，非法律合规认证。",
+            "method": "rule",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 1,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "after": {
+        "id": "83128ac9-4a81-4f88-8fde-84b0fd901ec2",
+        "sampleId": "BC01-after",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "supported",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入同比增长率与原文一致",
+            "quote": "营业收入同比增长 15.71%",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-growth-2024",
+            "expected": "15.71 %",
+            "observed": "15.71 %",
+            "method": "evidence",
+            "id": "f1"
+          }
+        ],
+        "checkedClaims": 1,
+        "totalClaims": 1,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      }
+    },
+    {
+      "id": "BC02",
+      "title": "回答修订：两种画像采用同一组财务事实",
+      "sampleBefore": {
+        "id": "Q07-novice-v1",
+        "questionId": "Q07",
+        "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+        "answer": "可以把营收理解为经营收入，把归母净利润理解为属于母公司股东的利润。2024 年营业收入为 1708.99 亿元，归母净利润为 962.28 亿元。两项数字都对应年度经营表现，不能据此保证投资收益。这里按你的知识程度调整表达，引用 S1 第 5 页作为依据；金额统一换算为人民币亿元，其他用户阅读同一份报告时也应采用一致的事实口径。",
+        "intent": "fact",
+        "profileId": "novice",
+        "promptVersion": "v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "sampleAfter": {
+        "id": "BC02-after",
+        "questionId": "Q07",
+        "question": "请按我的知识程度，解释贵州茅台 2024 年营业收入和归母净利润。",
+        "answer": "先解释术语：营业收入反映经营收入规模，归母净利润是归属于母公司股东的利润，不等于分红或投资者收益。贵州茅台 2024 年营业收入为 1708.99 亿元，归母净利润为 862.28 亿元。两项均为 2024 年全年合并口径，金额按人民币亿元保留两位小数，精确值见 S1 第 5 页。知识程度可以改变术语解释和信息详略，但不能改变数值、单位、报告期与出处。风险偏好也不能改变这些历史事实或消除未来投资风险。",
+        "intent": "fact",
+        "profileId": "novice",
+        "promptVersion": "case-revision-v1",
+        "modelVersion": "构造示例 · 无模型生成",
+        "dataVersion": "moutai-2024-verified-v1",
+        "evidenceIds": [
+          "S1"
+        ],
+        "provenance": "constructed",
+        "createdAt": "2026-10-24T21:44:32.000Z"
+      },
+      "hypothesis": "同题、同模型标签和同数据版本下，入门画像写成 962.28 亿元，另一画像写成 862.28 亿元；前者也偏离 S1。可据此提出“个性化表达没有保持事实一致”的问题假设，但无法凭这些构造文本确定真实系统中的检索、生成或缓存环节谁导致了变化。",
+      "evidenceSteps": [
+        "S1 第 5 页登记的 2024 年营业收入为 170,899,152,276.34 元，归母净利润为 86,228,146,421.62 元，均为合并口径。",
+        "人民币元换算为亿元、保留两位小数后分别为 1708.99 和 862.28；原入门回答的 962.28 不受显示精度容差支持。",
+        "固定参考回答 Q07-experienced-v1 已使用 862.28 亿元。前后均与这份相同文本配对，并分别对照同一 S1，不能仅凭两画像彼此一致便宣称事实正确。"
+      ],
+      "changes": [
+        "将入门画像的归母净利润恢复为 S1 支持的 862.28 亿元；保留营业收入、报告期、合并口径、币种与出处。",
+        "继续解释财务术语，把用户知识程度的影响限制在表达详略，不让画像改变事实。",
+        "参考画像回答全文不改；after 侧仅同步案例版本标签以保持规则配对。该标签表示 AI 助手的回答修订，不表示真实 Prompt 生成或优化。"
+      ],
+      "remainingLimit": "当前一致性检查只覆盖已解析的财务数值，不代表完整 KYC 适当性审查。参考回答仍为构造示例，事实依据是 S1；本案例没有真人确认或独立模型质量结论。",
+      "before": {
+        "id": "759a78b3-0f90-4518-b1c3-5668fef46c4a",
+        "sampleId": "Q07-novice-v1",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "contradicted",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入与原文一致",
+            "quote": "营业收入为 1708.99 亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "170,899,000,000 元",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "归母净利润与原文冲突",
+            "quote": "归母净利润为 962.28 亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 64 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "net-profit-2024",
+            "expected": "86,228,146,421.62 元",
+            "observed": "96,228,000,000 元",
+            "method": "evidence",
+            "id": "f2"
+          },
+          {
+            "dimension": "personalization",
+            "status": "contradicted",
+            "severity": "high",
+            "title": "同一事实随画像改变",
+            "quote": "Q07-experienced-v1",
+            "detail": "相同问题、模型、Prompt、数据版本下，另一画像出现不同财务数值（已考虑各自显示精度）。知识水平与风险偏好只能改变解释方式。",
+            "method": "paired",
+            "id": "f3"
+          }
+        ],
+        "checkedClaims": 2,
+        "totalClaims": 2,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      },
+      "after": {
+        "id": "c4d9619a-6fec-4310-a4cf-27553df8d0bc",
+        "sampleId": "BC02-after",
+        "createdAt": "2026-10-25T00:00:00Z",
+        "evaluatorVersion": "rules-1.1.1",
+        "status": "supported",
+        "findings": [
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入与原文一致",
+            "quote": "营业收入为 1708.99 亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "170,899,000,000 元",
+            "method": "evidence",
+            "id": "f1"
+          },
+          {
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "归母净利润与原文一致",
+            "quote": "归母净利润为 862.28 亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 64 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "net-profit-2024",
+            "expected": "86,228,146,421.62 元",
+            "observed": "86,228,000,000 元",
+            "method": "evidence",
+            "id": "f2"
+          }
+        ],
+        "checkedClaims": 2,
+        "totalClaims": 2,
+        "mode": "rules",
+        "modelStatus": "not_requested"
+      }
+    }
+  ],
+  "limits": [
+    "12条新构造样本不曾参与现有检测器调试，但仍限于同一家公司和同一份历史年报，不代表真实用户分布。",
+    "参考标签与模型输入分开保存；调用仅发送问题、回答、画像和证据，不发送参考标签或其他模型结果。",
+    "规则告警与模型疑点是否匹配参考标签，只用于小样本案例验收；非整体准确率或金融判断能力认证。",
+    "TP/FP/FN/TN仅衡量是否触发具体告警与参考标签的一致性，不代表每条疑点的维度或理由均正确；须逐条核对。双模型主比较限双方共同成功的同一批样本。",
+    "规则的数字覆盖提示不计作回答缺陷；无告警或零模型疑点不等于整篇回答正确。失败或未调用单列，不计作通过。",
+    "两个模型固定 quality-v2、low 推理、3000输出上限、相同证据与时点，各题各一次，不重试或替换失败。",
+    "两条改善案例是AI依据证据修订回答，不是实际Prompt生成实验；模型仅复核修订稿，前后变化以同版规则回归说明。",
+    "网页读取冻结的真实调用结果；新输入的在线付费模型与实时行情仍未开放。"
+  ]
+}
