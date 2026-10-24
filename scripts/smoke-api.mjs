@@ -14,6 +14,11 @@ async function request(path,body,expected=200,extra={}) {
 const initial=await request("/api/workspace");
 assert.equal(initial.samples.length,32); assert.equal(initial.reviews.length,0); assert.equal(initial.connection.modelEnabled,false);
 assert.equal(initial.evaluations.filter(e=>e.mode==="rules").length,32); assert.ok(initial.evaluations.some(e=>e.status==="contradicted"));
+const seedRules=initial.evaluations.filter(e=>e.mode==="rules");
+assert.ok(seedRules.every(e=>!e.findings.some(f=>f.title==="回答可能使用了其他公司主体")));
+const plantedRevenueErrors=seedRules.filter(e=>/^Q0[12]-(novice|experienced)-v1$/.test(e.sampleId));
+assert.equal(plantedRevenueErrors.length,4);
+assert.ok(plantedRevenueErrors.every(e=>e.findings.some(f=>f.title==="营业收入与原文冲突"&&f.status==="contradicted")));
 assert.ok(initial.connection.modelSnapshot); assert.equal(initial.evaluations.filter(e=>e.modelRun).length,initial.connection.modelSnapshot.total);
 const capturedModel=initial.evaluations.find(e=>e.modelRun?.status==="success");
 assert.ok(capturedModel); assert.ok(capturedModel.modelRun.usage.reported); assert.ok(capturedModel.findings.filter(f=>f.method==="model").every(f=>["review","unverifiable"].includes(f.status)));

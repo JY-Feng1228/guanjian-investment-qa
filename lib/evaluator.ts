@@ -1,7 +1,7 @@
 import type { Evidence, Evaluation, Fact, Finding, Sample } from "./domain.ts";
 import { containsSensitivePattern } from "./privacy.ts";
 
-export const EVALUATOR_VERSION = "rules-1.2.0";
+export const EVALUATOR_VERSION = "rules-1.2.1";
 type Claim = { metric: string; period: string; value: number; tolerance: number; raw: string; unit: string; fact?: Fact; evidenceId?: string };
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const money = /\d[\d,]*(?:\.\d+)?\s*(?:万亿元|亿元|万元|元|%|％)/g;
@@ -19,7 +19,8 @@ function conflictingEntities(sample:Sample,evidence:Evidence[]) {
   if(!/茅台|600519/.test(sample.question)&&!evidence.some(e=>sample.evidenceIds.includes(e.id)&&e.title.includes("贵州茅台"))) return [];
   const metrics=[...new Set(["营业收入","营业总收入","归母净利润",...evidence.filter(e=>sample.evidenceIds.includes(e.id)).flatMap(e=>e.facts.flatMap(f=>[f.metric,...f.aliases]))])].sort((a,b)=>b.length-a.length);
   const generic=new Set(["这是","这里","其中","截至","我们","我","你","公司","该公司","本公司","该企业","本企业","企业","年报","报告","本报告","摘要","报表","材料","资料","数据","数字","表中","文中","上述","营业收入","营业总收入","归母净利润","营收","利润","预计","达到","数据来自","数据来源","先看"]);
-  const pattern=new RegExp(`(?:^|[。；，、\\s])([\\u4e00-\\u9fff]{2,20}?)\\s*(?:20\\d{2}\\s*年|${metrics.map(escape).join("|")})`,"g");
+  // Only a direct metric amount can establish this limited subject check; explanatory mentions cannot.
+  const pattern=new RegExp(`(?:^|[。；，、\\s])([\\u4e00-\\u9fff]{2,20}?)\\s*(?:20\\d{2}\\s*年\\s*)?(?:${metrics.map(escape).join("|")})\\s*(?:为|是|达到|约为|约|：|:|录得|合计)?\\s*[\\d,]+(?:\\.\\d+)?\\s*(?:万亿元|亿元|万元|元|%|％)`,"g");
   return [...sample.answer.matchAll(pattern)].map(m=>m[1].replace(/^(根据|按照|关于|来自|引用|以及|和|与|及)/,"").replace(/(?:列出|列示|披露|显示|说明|预计|记载|载明|记录)(?:的)?$/ ,"").replace(/的$/,""))
     .filter(name=>name.length>=2&&!generic.has(name)&&!name.includes("茅台")&&!metrics.some(metric=>metric.startsWith(name)||name.includes(metric))&&!/报告|年报|指标|同比|季度|年度|口径/.test(name)&&!/(?:来自|包括|除了|对应|参考|引用|采用|截至|说明|是|与|于|把|为|对|按|从|在|到|据|看)$/.test(name));
 }

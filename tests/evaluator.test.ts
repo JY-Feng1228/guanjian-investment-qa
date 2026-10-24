@@ -63,6 +63,7 @@ test("a different named company cannot borrow the Moutai reference",()=>{
   for(const name of ["五粮液","腾讯","某公司"]) {
     const result=run({answer:`${name}2024年营业收入为1708.99亿元。`});
     assert.equal(result.status,"review"); assert.equal(result.checkedClaims,0);
+    assert.equal(run({answer:`${name}2024年营收为1708.99亿元。`}).checkedClaims,0);
   }
   assert.equal(run({answer:"贵州茅台2024年营业收入为1708.99亿元。"}).status,"supported");
   assert.equal(run({answer:"2024年营业收入为1708.99亿元。数字来自2024年年报。这里回答的是2024年全年数字。"}).status,"supported");

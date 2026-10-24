@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T22:07:56.633Z",
+  "generatedAt": "2026-10-24T22:34:31.925Z",
   "evaluationAt": "2026-10-25T00:00:00Z",
   "baseline": {
     "version": "rules-1.1.1",
@@ -18,7 +18,7 @@
     }
   },
   "current": {
-    "version": "rules-1.2.0",
+    "version": "rules-1.2.1",
     "metrics": {
       "total": 12,
       "completed": 12,
@@ -199,22 +199,12 @@
         {
           "dimension": "relevance",
           "status": "review",
-          "severity": "high",
-          "title": "回答可能使用了其他公司主体",
-          "quote": "摘要还单独列示了",
-          "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
-          "method": "rule",
-          "id": "f1"
-        },
-        {
-          "dimension": "relevance",
-          "status": "review",
           "severity": "medium",
           "title": "未解释所问指标的含义差别",
           "quote": "我是新手，请说明营业收入与归母净利润的含义差别，为什么不能互换使用？",
           "detail": "问题要求解释收入与净利润的含义差别，当前回答缺少至少一项概念说明；仅列产品收入或两项金额不能替代解释。该规则检查概念覆盖，不裁定解释完整性。",
           "method": "rule",
-          "id": "f4"
+          "id": "f3"
         }
       ]
     },
@@ -318,10 +308,10 @@
         "reason": "原值为1708.9915227634亿元，两位小数应为1708.99；1709.00已超出该显示精度的舍入容差。约字不能为任意误差免责。"
       },
       "evaluation": {
-        "id": "b237e04e-0107-4466-9619-ff0294808f51",
+        "id": "85190918-72d4-43fe-b2b2-c8ca7e5d1ddb",
         "sampleId": "C01",
         "createdAt": "2026-10-25T00:00:00Z",
-        "evaluatorVersion": "rules-1.2.0",
+        "evaluatorVersion": "rules-1.2.1",
         "status": "contradicted",
         "findings": [
           {
@@ -369,50 +359,44 @@
         "reason": "1708.99是正确的营业收入数值，但问题问的是营业总收入；谨慎措辞和以年报为准不能纠正指标混用。"
       },
       "evaluation": {
-        "id": "f0d8e157-389c-4b36-8950-4e855fd0bb2c",
+        "id": "a599b4db-d3e3-409b-97b3-af58c77e43de",
         "sampleId": "C02",
         "createdAt": "2026-10-25T00:00:00Z",
-        "evaluatorVersion": "rules-1.2.0",
+        "evaluatorVersion": "rules-1.2.1",
         "status": "review",
         "findings": [
           {
-            "dimension": "relevance",
-            "status": "review",
-            "severity": "high",
-            "title": "回答可能使用了其他公司主体",
-            "quote": "这里暂把这一金额作为所问",
-            "detail": "当前证据属于贵州茅台，不能套用于另一家公司。已暂停该回答的数字支持判定，请先核对主体。",
-            "method": "rule",
+            "dimension": "number",
+            "status": "supported",
+            "severity": "info",
+            "title": "营业收入与原文一致",
+            "quote": "营业收入为1708.99亿元",
+            "detail": "2024年，按回答显示精度核对。原文第 5 页；营业收入与营业总收入分开核验。",
+            "evidenceId": "S1",
+            "factId": "revenue-2024",
+            "expected": "170,899,152,276.34 元",
+            "observed": "170,899,000,000 元",
+            "method": "evidence",
             "id": "f1"
           },
           {
-            "dimension": "number",
-            "status": "unverifiable",
+            "dimension": "relevance",
+            "status": "review",
             "severity": "medium",
-            "title": "还有数字未完成核验",
-            "quote": "1708.99亿元",
-            "detail": "现有解析器只核对已收录指标的直接陈述。同比、多个年份的省略句及其他指标需要补充证据或人工核验。",
+            "title": "回答指标可能偏离问题",
+            "quote": "贵州茅台2024年营业总收入是多少？",
+            "detail": "已核对数字属于另一指标。口径正确不代表回答了用户所问，需要检查是否混用营业收入与营业总收入。",
             "method": "rule",
             "id": "f2"
-          },
-          {
-            "dimension": "source",
-            "status": "unverifiable",
-            "severity": "medium",
-            "title": "没有可直接核验的财务断言",
-            "quote": "",
-            "detail": "未检出与现有证据匹配的直接数字陈述；不等同于回答错误或已通过。",
-            "method": "evidence",
-            "id": "f3"
           }
         ],
-        "checkedClaims": 0,
+        "checkedClaims": 1,
         "totalClaims": 1,
         "mode": "rules",
         "modelStatus": "not_requested"
       },
       "flag": true,
-      "localizationNote": "本题虽触发告警，但原因是将普通语句误识别为公司主体，未正确定位指标口径问题；二元TP不能当作正确定位。"
+      "localizationNote": null
     },
     {
       "sample": {
@@ -436,10 +420,10 @@
         "reason": "1708.99对应2024全年，回答将它放到上半年，并未回答全年问题。现有证据表未登记半年值，不能因此声称已知正确半年值。"
       },
       "evaluation": {
-        "id": "2e079717-220b-4ba5-a609-3c601d97b41b",
+        "id": "71780260-621d-4bdf-909e-99a328a6e334",
         "sampleId": "C03",
         "createdAt": "2026-10-25T00:00:00Z",
-        "evaluatorVersion": "rules-1.2.0",
+        "evaluatorVersion": "rules-1.2.1",
         "status": "contradicted",
         "findings": [
           {
