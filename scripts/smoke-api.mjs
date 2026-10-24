@@ -13,7 +13,14 @@ async function request(path,body,expected=200,extra={}) {
 }
 const initial=await request("/api/workspace");
 assert.equal(initial.samples.length,32); assert.equal(initial.reviews.length,0); assert.equal(initial.connection.modelEnabled,false);
-assert.equal(initial.evaluations.length,32); assert.ok(initial.evaluations.some(e=>e.status==="contradicted"));
+assert.equal(initial.evaluations.filter(e=>e.mode==="rules").length,32); assert.ok(initial.evaluations.some(e=>e.status==="contradicted"));
+assert.ok(initial.connection.modelSnapshot); assert.equal(initial.evaluations.filter(e=>e.modelRun).length,initial.connection.modelSnapshot.total);
+const capturedModel=initial.evaluations.find(e=>e.modelRun?.status==="success");
+assert.ok(capturedModel); assert.ok(capturedModel.modelRun.usage.reported); assert.ok(capturedModel.findings.filter(f=>f.method==="model").every(f=>["review","unverifiable"].includes(f.status)));
+await request("/api/reviews",{evaluationId:capturedModel.id,decision:"needs_data",comment:"自动化验收：独立模型记录的复核绑定检查，不是业务人工结论。"});
+const withModelReview=await request("/api/workspace");
+assert.equal(withModelReview.reviews.filter(r=>r.evaluationId===capturedModel.id).length,1);
+assert.ok(!withModelReview.reviews.some(r=>initial.evaluations.some(e=>e.mode==="rules"&&e.id===r.evaluationId)));
 const input={question:"贵州茅台2024年营业收入是多少？",answer:"2024年营业收入为1708.99亿元。",intent:"fact",profileId:"novice"};
 const imported=await request("/api/samples",input);
 const added=imported.samples.find(s=>s.provenance==="imported"); assert.ok(added);
@@ -21,11 +28,12 @@ const firstEval=imported.evaluations.find(e=>e.sampleId===added.id); assert.equa
 await request("/api/reviews",{evaluationId:firstEval.id,decision:"confirmed",comment:"自动化验收输入：核对官方原文数字；本记录不是业务人工评估结论。"});
 const rerun=await request("/api/evaluate",{sampleIds:[added.id]});
 assert.equal(rerun.evaluations.filter(e=>e.sampleId===added.id).length,2);
-assert.ok(rerun.reviews.every(r=>r.evaluationId===firstEval.id));
+assert.ok(rerun.reviews.filter(r=>r.sampleId===added.id).every(r=>r.evaluationId===firstEval.id));
 const revised=await request("/api/revisions",{sampleId:added.id,answer:"2024年营业收入为1800亿元。",promptVersion:"smoke-revision"});
 const revision=revised.samples.find(s=>s.promptVersion==="smoke-revision");
 assert.equal(revision.questionId,added.questionId); assert.ok(revised.samples.some(s=>s.id===added.id));
 assert.equal(revised.evaluations.find(e=>e.sampleId===revision.id).status,"contradicted");
+assert.ok(!revised.evaluations.some(e=>e.sampleId===revision.id&&e.modelRun));
 await request("/api/revisions",{sampleId:added.id,answer:input.answer,promptVersion:"smoke-revision"},409);
 const feedback=await request("/api/feedback",{sampleId:added.id,kind:"dispute",comment:"自动化验收：反馈不修改事实判定。"});
 assert.equal(feedback.feedback.length,1);

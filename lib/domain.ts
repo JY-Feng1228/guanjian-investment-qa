@@ -23,6 +23,12 @@ export type Evaluation = {
   id: string; sampleId: string; createdAt: string; evaluatorVersion: string; status: CheckStatus;
   findings: Finding[]; checkedClaims: number; totalClaims: number;
   mode: "rules" | "rules+model"; modelStatus: "not_requested" | "success" | "failed";
+  modelRun?: {
+    provider: "OpenAI"; requestedModel: string; model: string | null; promptVersion: string;
+    requestId: string | null; responseId: string | null; completedAt: string;
+    usage: { reported: boolean; inputTokens: number | null; outputTokens: number | null; estimatedCostUsd: number | null };
+    status: "success" | "failed"; errorCode?: string;
+  };
 };
 export type Review = { id: string; evaluationId: string; sampleId: string; decision: "confirmed" | "false_positive" | "needs_data"; comment: string; createdAt: string };
 export type Feedback = { id: string; sampleId: string; kind: "useful" | "not_useful" | "dispute"; comment: string; createdAt: string; origin: "visitor" };
@@ -30,7 +36,9 @@ export type AuditEvent = { id: string; action: string; detail: string; createdAt
 export type Workspace = {
   samples: Sample[]; evaluations: Evaluation[]; reviews: Review[]; feedback: Feedback[]; events: AuditEvent[];
   evidence: Evidence[]; profiles: Profile[];
-  connection: { data: string; model: string; modelEnabled: boolean; snapshotAt: string; notice: string };
+  connection: { data: string; model: string; modelEnabled: boolean; snapshotAt: string; notice: string;
+    modelSnapshot?: { runId: string; total: number; succeeded: number; failed: number; estimatedCostUsd: number; unknownCostCount: number; completedAt: string };
+  };
 };
 export const DIMENSIONS: Record<Finding["dimension"], string> = {
   number: "数字与单位", period: "报告期间", freshness: "时效", relevance: "意图匹配", reasoning: "解释依据",

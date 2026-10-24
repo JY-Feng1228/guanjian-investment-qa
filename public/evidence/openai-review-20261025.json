@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "runId": "openai-first-verification-20261025",
+  "createdAt": "2026-10-24T21:25:17.369Z",
+  "completedAt": "2026-10-24T21:26:37.901Z",
+  "provider": "OpenAI",
+  "requestedModel": "gpt-6-luna",
+  "promptVersion": "quality-v1",
+  "selectedIds": [
+    "Q01-novice-v2",
+    "Q02-experienced-v1",
+    "Q03-novice-v1",
+    "Q04-experienced-v1",
+    "Q05-novice-v2",
+    "Q06-experienced-v1",
+    "Q07-novice-v1",
+    "Q08-experienced-v2"
+  ],
+  "records": [
+    {
+      "sampleId": "Q01-novice-v2",
+      "inputHash": "b64fadcb30bfa891ba6099d46a36e35066541bd506bf626e4ff48a0c0d57f43e",
+      "completedAt": "2026-10-24T21:25:28.077Z",
+      "status": "failed",
+      "error": {
+        "code": "network_error",
+        "usage": {
+          "reported": false,
+          "inputTokens": null,
+          "outputTokens": null,
+          "estimatedCostUsd": null
+        },
+        "metadata": {
+          "requestedModel": "gpt-6-luna",
+          "model": null,
+          "promptVersion": "quality-v1",
+          "requestId": null,
+          "responseId": null
+        }
+      }
+    },
+    {
+      "sampleId": "Q02-experienced-v1",
+      "inputHash": "38c62b9f9c9f133df59a26bad4365fde5ecad27e7de19421c6772e7b6360ecae",
+      "completedAt": "2026-10-24T21:26:01.445Z",
+      "status": "success",
+      "result": {
+        "findings": [
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "high",
+            "title": "把两个不同指标说成相同并可互换",
+            "quote": "因此两种说法可以互换。",
+            "detail": "证据列示的 2024 年营业收入为 170,899,152,276.34 元，营业总收入为 174,144,069,958.25 元，二者数值不同。请复核将两个口径称为可互换的结论。",
+            "id": "model-71d860ae-8085-4b14-a21a-3311d35a781d",
+            "method": "model",
+            "evidenceId": "S1"
+          },
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "medium",
+            "title": "引用单一数字的建议未说明指标口径差异",
+            "quote": "回答营收问题时直接使用较完整的总额即可，无需再拆分利息收入。",
+            "detail": "问题询问两项指标是否相同以及应引用哪个数字；证据显示两者不同，且列有利息收入项目。回答未说明应根据所问指标名称选择对应数字，可能使引用口径不清。",
+            "id": "model-6d6802bb-5c19-43d2-8a74-20aae8d0bca6",
+            "method": "model",
+            "evidenceId": "S1"
+          },
+          {
+            "dimension": "source",
+            "status": "review",
+            "severity": "medium",
+            "title": "页码与证据记录不一致",
+            "quote": "该金额可在 S1 第 63 页找到",
+            "detail": "S1 的事实记录将营业总收入列在第 63 页，但营业收入列在第 5 页；回答未区分两个金额的出处。请复核其页码指向是否准确。",
+            "id": "model-5fcde1c5-c291-49ff-a8ed-7ad755c9932d",
+            "method": "model",
+            "evidenceId": "S1"
+          }
+        ],
+        "usage": {
+          "reported": true,
+          "inputTokens": 2023,
+          "outputTokens": 336,
+          "estimatedCostUsd": 0.00067375
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_e255a8450a014de4a9313773e1d1bb4f",
+        "responseId": "resp_090322c0efd7cdf7016add22645ca487d0b8eca737bb51b249"
+      }
+    },
+    {
+      "sampleId": "Q03-novice-v1",
+      "inputHash": "c1452915ea1086df28c0b7b239dd92259bc52b367addfb1a8187b169f5f69436",
+      "completedAt": "2026-10-24T21:26:03.898Z",
+      "status": "success",
+      "result": {
+        "findings": [
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "high",
+            "title": "2023 年数值与证据列示不符",
+            "quote": "2023 年营业收入为 1708.99 亿元，归母净利润为 862.28 亿元",
+            "detail": "证据中 2023 年营业收入为 147,693,604,994.14 元，归母净利润为 74,734,071,550.75 元；回答所列数值与证据中的 2024 年数据相对应。建议人工核对年度及数值。",
+            "id": "model-d2b93b41-6a8c-47f2-aec9-233606fc4850",
+            "method": "model",
+            "evidenceId": "S1"
+          }
+        ],
+        "usage": {
+          "reported": true,
+          "inputTokens": 1802,
+          "outputTokens": 148,
+          "estimatedCostUsd": 0.0005245
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_e0bbb93f4edf411e914b3eb12f252d07",
+        "responseId": "resp_071f928da037096d016add2268921087d0b0bb62039879d3ad"
+      }
+    },
+    {
+      "sampleId": "Q04-experienced-v1",
+      "inputHash": "00b6a86d392870dc3d840b544a0cce5ac028cf0a1c2bee598b9a6530bef92709",
+      "completedAt": "2026-10-24T21:26:07.614Z",
+      "status": "success",
+      "result": {
+        "findings": [
+          {
+            "dimension": "relevance",
+            "status": "review",
+            "severity": "high",
+            "title": "将旧年报误述为当天最新消息",
+            "quote": "今天最新发布的消息是贵州茅台 2024 年年报",
+            "detail": "证据显示该年报发布于 2025-04-03，而问题询问的是 2026-10-25 的最新消息。现有材料无法支持它是当天最新发布的信息。",
+            "id": "model-21979ddf-6a74-4ba3-961e-96342fbe60e7",
+            "method": "model",
+            "evidenceId": "S1"
+          },
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "medium",
+            "title": "把历史业绩当作当日市场新获信息",
+            "quote": "这说明今天市场刚刚获得了公司盈利增长的信息",
+            "detail": "证据记录的是 2024 年度业绩及 2025 年披露日期，不支持市场在问题所述当天“刚刚获得”这些信息；回答也未提供当天公告或市场信息作为依据。",
+            "id": "model-2293aee2-14de-4f4c-be58-066c12b5d4c5",
+            "method": "model",
+            "evidenceId": "S1"
+          },
+          {
+            "dimension": "reasoning",
+            "status": "unverifiable",
+            "severity": "medium",
+            "title": "缺少当日行情与市场预期依据",
+            "quote": "可作为判断当日行情的主要依据",
+            "detail": "提供的证据仅涵盖年报及公告检索片段，没有当日股价表现、市场预期或其他同期信息，无法据此核验其是否为判断当日行情的主要依据。",
+            "id": "model-97eb7587-6bd7-4990-aa48-a17e3797be83",
+            "method": "model"
+          }
+        ],
+        "usage": {
+          "reported": true,
+          "inputTokens": 2042,
+          "outputTokens": 310,
+          "estimatedCostUsd": 0.0006655
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_92e47afdd3a3446faf563c458ec240dc",
+        "responseId": "resp_01cfa583c0eedca8016add226afe2887d0afed4a75bed7fc4a"
+      }
+    },
+    {
+      "sampleId": "Q05-novice-v2",
+      "inputHash": "712a7140d645b0105b6da3c6c41033c811cbf2321299e2f110c7171304a9e583",
+      "completedAt": "2026-10-24T21:26:10.227Z",
+      "status": "success",
+      "result": {
+        "findings": [
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "high",
+            "title": "将经营改善直接推成股价必然上涨",
+            "quote": "这种经营改善意味着未来股价必然上涨，可以由利润表直接推出后续市场表现",
+            "detail": "回答从营收增长推导出未来股价必然上涨，并称可由利润表直接推出市场表现。所给证据仅涉及经营数据及增长原因，未提供估值或行情依据；该确定性结论超出证据且未体现股价判断的局限。",
+            "id": "model-6d2a03a5-0b0f-46ef-bcf1-c1f17bf7a4cc",
+            "method": "model",
+            "evidenceId": "S1"
+          }
+        ],
+        "usage": {
+          "reported": true,
+          "inputTokens": 1789,
+          "outputTokens": 141,
+          "estimatedCostUsd": 0.00051775
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_46144d48f5ce40c5b51fc716dc491cdd",
+        "responseId": "resp_009e4616ad612d5b016add226ebc8487d0abc5b35db12ec65d"
+      }
+    },
+    {
+      "sampleId": "Q06-experienced-v1",
+      "inputHash": "30fa003afb963dd4455e4320ecf3534dfff6a9269c9143cd16adb84602db4ac3",
+      "completedAt": "2026-10-24T21:26:12.929Z",
+      "status": "success",
+      "result": {
+        "findings": [
+          {
+            "dimension": "source",
+            "status": "unverifiable",
+            "severity": "high",
+            "title": "现金流净额及同比缺少对应证据",
+            "quote": "2024 年经营活动产生的现金流量净额为 1000 亿元，同比增长 20%。",
+            "detail": "提供的 S1 核验记录未登记经营活动现金流量净额或其同比数据，也没有现金流量表对应项目、同比基数或页码；现有证据不足以核实这两个数值。",
+            "id": "model-08347c12-5aa5-4108-823d-636213a9db82",
+            "method": "model",
+            "evidenceId": "S1"
+          },
+          {
+            "dimension": "reasoning",
+            "status": "review",
+            "severity": "medium",
+            "title": "对经营状况的评价超出已提供证据",
+            "quote": "这些数字说明经营现金回收较好",
+            "detail": "现有证据没有现金流项目或可用于支持该评价的现金回收分析；需复核这一结论是否有独立依据。",
+            "id": "model-ea03bae1-9759-486a-b42a-d198c542e02a",
+            "method": "model",
+            "evidenceId": "S1"
+          }
+        ],
+        "usage": {
+          "reported": true,
+          "inputTokens": 1782,
+          "outputTokens": 212,
+          "estimatedCostUsd": 0.0005515
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_544594f322a04790b760624590b3af6a",
+        "responseId": "resp_0466f1bc89be06ed016add2271504c87d0a2869cf3f2f9a24c"
+      }
+    },
+    {
+      "sampleId": "Q07-novice-v1",
+      "inputHash": "c479ea1a9470b33f29fdf24a0907674b6a653c139bca33b3ddcfb2ccc8da5aaa",
+      "completedAt": "2026-10-24T21:26:15.721Z",
+      "status": "failed",
+      "error": {
+        "code": "invalid_response",
+        "usage": {
+          "reported": true,
+          "inputTokens": 1801,
+          "outputTokens": 192,
+          "estimatedCostUsd": 0.00054625
+        },
+        "metadata": {
+          "requestedModel": "gpt-6-luna",
+          "model": "gpt-6-luna",
+          "promptVersion": "quality-v1",
+          "requestId": "req_472b7cd3ca0c4ed695ffa07496befbe6",
+          "responseId": "resp_0e8c18cae63e6ca1016add2274050487d09fa62625eb995c6e"
+        }
+      }
+    },
+    {
+      "sampleId": "Q08-experienced-v2",
+      "inputHash": "fca77cfa1eb0a86ba13afe5b3f3a9c2f1dd9b7feba5ca97fde175694ed9ef0cd",
+      "completedAt": "2026-10-24T21:26:37.901Z",
+      "status": "success",
+      "result": {
+        "findings": [],
+        "usage": {
+          "reported": true,
+          "inputTokens": 1790,
+          "outputTokens": 16,
+          "estimatedCostUsd": 0.0004555
+        },
+        "requestedModel": "gpt-6-luna",
+        "model": "gpt-6-luna",
+        "promptVersion": "quality-v1",
+        "requestId": "req_13cfb2d1db7842c6881350f1b1d38ca8",
+        "responseId": "resp_026b771c966286cb016add228bd24487d093e1a67e1f1457bb"
+      }
+    }
+  ],
+  "budgetUsd": 0.3,
+  "estimatedCostUsd": 0.00393475,
+  "unknownCostCount": 1,
+  "reservedSpendUsd": 0.10393475,
+  "note": "固定8个独立问题，每题一次，不重试、不替换失败样本。回答仍为构造样例，模型只作语义复核；估算不等于账单，未知费用单列。网页载入本次快照，不触发付费模型。"
+}

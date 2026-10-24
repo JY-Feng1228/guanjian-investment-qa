@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import {
-  DEFAULT_MODEL, MODEL_INSPECTION_PROMPT, MODEL_MAX_OUTPUT_TOKENS, MODEL_TIMEOUT_MS,
+  DEFAULT_MODEL, MODEL_ENDPOINT, MODEL_INSPECTION_PROMPT, MODEL_MAX_OUTPUT_TOKENS, MODEL_PROMPT_VERSION, MODEL_TIMEOUT_MS,
   ModelInspectionError, estimateModelCostUsd, inspectWithModel,
 } from "../lib/model.ts";
 import type { Evidence, Sample } from "../lib/domain.ts";
@@ -25,7 +25,7 @@ const finding = {
 const apiKey = "unit-test-placeholder-never-send";
 const input = { sample, evidence: [evidence], apiKey };
 const envelope = (findings: unknown[] = [finding], usage: unknown = { input_tokens: 2_000, output_tokens: 600 }) => ({
-  status: "completed", model: DEFAULT_MODEL,
+  id: "resp_unit_test", status: "completed", model: DEFAULT_MODEL,
   output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify({ findings }) }] }], usage,
 });
 const mockResponse = (body: unknown): typeof fetch => async () => new Response(JSON.stringify(body));
@@ -34,14 +34,21 @@ test("model adapter sends one bounded request, treats material as data, and retu
   let calls = 0;
   const result = await inspectWithModel({ ...input, evidence: [evidence, { ...evidence, id: "unselected" }] }, async (url, init) => {
     calls++;
-    assert.equal(url, "https://api.deepseek.com/responses");
+    assert.equal(url, "https://api.openai.com/v1/responses");
+    assert.equal(url, MODEL_ENDPOINT);
     assert.equal(init?.redirect, "error");
     assert.equal(new Headers(init?.headers).get("authorization"), `Bearer ${apiKey}`);
     const body = JSON.parse(String(init?.body));
     assert.equal(body.model, DEFAULT_MODEL);
+    assert.equal(body.model, "gpt-6-luna");
     assert.equal(body.max_output_tokens, MODEL_MAX_OUTPUT_TOKENS);
     assert.deepEqual(body.reasoning, { effort: "none" });
     assert.equal(body.text.format.type, "json_schema");
+    assert.equal(body.text.format.strict, true);
+    assert.equal(body.text.format.schema.additionalProperties, false);
+    assert.deepEqual(body.text.format.schema.properties.findings.items.required,
+      ["dimension", "status", "severity", "title", "quote", "detail", "evidenceId"]);
+    assert.equal(body.store, false);
     assert.equal(body.tools, undefined);
     assert.equal(body.instructions, MODEL_INSPECTION_PROMPT);
     assert.equal(body.input.length, 1);
@@ -50,14 +57,32 @@ test("model adapter sends one bounded request, treats material as data, and retu
     assert.equal(supplied.answer, sample.answer);
     assert.deepEqual(supplied.evidence.map((entry: Evidence) => entry.id), [evidence.id]);
     assert.ok(!String(init?.body).includes(apiKey));
-    return new Response(JSON.stringify(envelope()));
+    return new Response(JSON.stringify(envelope()), { headers: { "x-request-id": "req_unit_test" } });
   });
   assert.equal(calls, 1);
   assert.equal(result.findings[0].method, "model");
   assert.equal(result.findings[0].status, "review");
   assert.equal(result.findings[0].evidenceId, evidence.id);
   assert.match(result.findings[0].id, /^model-/);
-  assert.deepEqual(result.usage, { reported: true, inputTokens: 2_000, outputTokens: 600, estimatedCostUsd: 0.00132 });
+  assert.deepEqual(result.usage, { reported: true, inputTokens: 2_000, outputTokens: 600, estimatedCostUsd: 0.0008 });
+  assert.equal(result.requestedModel, DEFAULT_MODEL);
+  assert.equal(result.model, DEFAULT_MODEL);
+  assert.equal(result.promptVersion, MODEL_PROMPT_VERSION);
+  assert.equal(result.requestId, "req_unit_test");
+  assert.equal(result.responseId, "resp_unit_test");
+});
+
+test("actual returned model is retained, and unknown model pricing stays unknown", async () => {
+  const actualModel = "gpt-6-luna-2026-10-01";
+  const result = await inspectWithModel(input, mockResponse({ ...envelope(), model: actualModel }));
+  assert.equal(result.model, actualModel);
+  assert.equal(result.requestedModel, DEFAULT_MODEL);
+  assert.equal(result.usage.estimatedCostUsd, 0.0008);
+  assert.equal(result.requestId, null);
+  const unexpected = await inspectWithModel(input, mockResponse({ ...envelope(), model: "unexpected-model" }));
+  assert.equal(unexpected.model, "unexpected-model");
+  assert.equal(unexpected.usage.reported, true);
+  assert.equal(unexpected.usage.estimatedCostUsd, null);
 });
 
 test("untrusted answer instructions never become instructions or tools", async () => {
@@ -100,12 +125,15 @@ test("HTTP and network errors are sanitized and never retried", async () => {
   let calls = 0;
   await assert.rejects(inspectWithModel(input, async () => {
     calls++;
-    return new Response(`provider body contains ${apiKey}`, { status: 429 });
+    return new Response(`provider body contains ${apiKey}`, { status: 429, headers: { "x-request-id": "req_http_failure" } });
   }), (error: unknown) => {
     assert.ok(error instanceof ModelInspectionError);
     assert.equal(error.code, "http_error");
     assert.equal(error.status, 429);
     assert.equal(error.usage.reported, false);
+    assert.equal(error.metadata.requestId, "req_http_failure");
+    assert.equal(error.metadata.model, null);
+    assert.equal(error.metadata.promptVersion, MODEL_PROMPT_VERSION);
     assert.ok(!`${error}${JSON.stringify(error)}`.includes(apiKey));
     return true;
   });
@@ -113,6 +141,58 @@ test("HTTP and network errors are sanitized and never retried", async () => {
   await assert.rejects(inspectWithModel(input, async () => { throw new Error(apiKey); }), (error: unknown) => {
     assert.ok(error instanceof ModelInspectionError);
     assert.equal(error.code, "network_error");
+    assert.ok(!`${error}${JSON.stringify(error)}`.includes(apiKey));
+    return true;
+  });
+});
+
+test("refusal is explicit, retains safe usage metadata, and never accepts adjacent findings or retries", async () => {
+  let calls = 0;
+  const body = envelope();
+  await assert.rejects(inspectWithModel(input, async () => {
+    calls++;
+    return new Response(JSON.stringify({ ...body, output: [
+      ...body.output, { type: "message", content: [{ type: "refusal", refusal: `sensitive body ${apiKey}` }] },
+    ] }), { headers: { "x-request-id": "req_refusal" } });
+  }), (error: unknown) => {
+    assert.ok(error instanceof ModelInspectionError);
+    assert.equal(error.code, "refusal");
+    assert.equal(error.usage.reported, true);
+    assert.equal(error.usage.estimatedCostUsd, 0.0008);
+    assert.equal(error.metadata.requestedModel, DEFAULT_MODEL);
+    assert.equal(error.metadata.model, DEFAULT_MODEL);
+    assert.equal(error.metadata.requestId, "req_refusal");
+    assert.equal(error.metadata.responseId, "resp_unit_test");
+    assert.ok(!`${error}${JSON.stringify(error)}`.includes(apiKey));
+    assert.ok(!JSON.stringify(error).includes("sensitive body"));
+    return true;
+  });
+  assert.equal(calls, 1);
+});
+
+test("missing or unsafe response metadata never falls back to the requested model or exposes secrets", async () => {
+  for (const model of [undefined, apiKey]) {
+    await assert.rejects(inspectWithModel(input, async () => new Response(
+      JSON.stringify({ ...envelope(), model, id: apiKey }), { headers: { "x-request-id": apiKey } },
+    )), (error: unknown) => {
+      assert.ok(error instanceof ModelInspectionError);
+      assert.equal(error.code, "invalid_response");
+      assert.equal(error.metadata.model, null);
+      assert.equal(error.metadata.requestId, null);
+      assert.equal(error.metadata.responseId, null);
+      assert.equal(error.usage.reported, true);
+      assert.equal(error.usage.estimatedCostUsd, null);
+      assert.ok(!`${error}${JSON.stringify(error)}`.includes(apiKey));
+      return true;
+    });
+  }
+  await assert.rejects(inspectWithModel(input, async () => new Response(
+    `invalid JSON ${apiKey}`, { headers: { "x-request-id": "req_invalid_json" } },
+  )), (error: unknown) => {
+    assert.ok(error instanceof ModelInspectionError);
+    assert.equal(error.code, "invalid_response");
+    assert.equal(error.metadata.requestId, "req_invalid_json");
+    assert.equal(error.usage.reported, false);
     assert.ok(!`${error}${JSON.stringify(error)}`.includes(apiKey));
     return true;
   });
@@ -156,7 +236,7 @@ test("invalid configuration makes no request, price estimates do not erase unkno
   await assert.rejects(inspectWithModel({ ...input, apiKey: "" }, fetchMock), { code: "invalid_input" });
   await assert.rejects(inspectWithModel({ ...input, model: "unsupported-model" }, fetchMock), { code: "invalid_input" });
   assert.equal(calls, 0);
-  assert.equal(estimateModelCostUsd(192_000, 44_800), 0.11136);
+  assert.equal(estimateModelCostUsd(192_000, 44_800), 0.0704);
   assert.equal(estimateModelCostUsd(null, 0), null);
   assert.equal(estimateModelCostUsd(-1, 10), null);
   assert.equal(estimateModelCostUsd(0, 0), 0);
