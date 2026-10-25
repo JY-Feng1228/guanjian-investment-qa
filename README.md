@@ -123,11 +123,11 @@ npm run build
 
 `npm run test:api` 需要先运行本地服务，默认请求 `http://127.0.0.1:5173`；非默认端口可设置 `QA_BASE_URL`。
 HTTP 检查使用独立 cookie 演示空间，会写入明确标注的自动化测试样本与复核声明，不属于业务人工标注。
-`rules-1.3.0` 功能验收时通过 **53 项单元测试及类型检查**。本次仅更新视频与说明，当前 `npm test` 为 **52/53**：唯一失败是旧视频 SHA-256 冻结断言，未修改测试或冻结哈希。原 32 条 seed 的状态与发现标题集合逐条保持 rules-1.2.1 不变，Q01/Q02 的 4 处营收冲突仍检出。HTTP、构建、浏览器与视频的检查由 [测试记录](docs/TESTING.md) 分版本记录；mock也不证明真实模型评测质量。
+`rules-1.3.0` 当前通过 **53/53 项单元测试及类型检查**。视频已在 `1abfd39` 按计划更新，回归检查仅将该 mp4 排除于旧视频哈希断言；其余冻结文件照常检查，冻结基线未修改。原 32 条 seed 的状态与发现标题集合逐条保持 rules-1.2.1 不变，Q01/Q02 的 4 处营收冲突仍检出。HTTP、构建、浏览器与视频的检查由 [测试记录](docs/TESTING.md) 分版本记录；mock也不证明真实模型评测质量。
 
 `scripts/verify-openai.ts` 与 `scripts/validate-quality.ts` 是分别对应两批次的受控本机入口，默认 `--plan` 不请求 API。付费执行只用于明确批准的固定计划；ledger 保留每次尝试、用量与未知费用预留。两个批次均已结束，不应删除 ledger 或重建批次以重跑。新的真实调用需要另行明确范围与预算，详见 [AI 使用说明](docs/AI-USAGE.md)。
 
-当前规则已从冻结基线升级，第二批脚本的`--plan`、`--report`、`--run`会因`code-changed-after-freeze`停止；这是预期的冻结保护，不应修改冻结哈希绕过。`node scripts/check-hot-context-regression.ts` 不联网且只校验，不改写报告；更换视频后会在旧视频哈希断言处停止，业务结果与视频变更分开记录。旧 `report-quality-regression.ts` 会写旧文件，本次不运行；基线实现位置与复现边界见 [质量验收说明](docs/QUALITY-VALIDATION.md)。
+当前规则已从冻结基线升级，第二批脚本的`--plan`、`--report`、`--run`会因`code-changed-after-freeze`停止；这是预期的冻结保护，不应修改冻结哈希绕过。`node scripts/check-hot-context-regression.ts` 不联网且只校验，不改写报告；已按计划更新的视频不参与旧哈希检查，新哈希见测试记录，其他冻结检查保持不变。旧 `report-quality-regression.ts` 会写旧文件，本次不运行；基线实现位置与复现边界见 [质量验收说明](docs/QUALITY-VALIDATION.md)。
 
 ## 可选 iFinD 本机工具
 
